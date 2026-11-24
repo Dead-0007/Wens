@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>وِنس — الرفيق العائم</title>
+  <link rel="icon" href="icons/icon.png" />
+  <link rel="stylesheet" href="pet.css" />
+  <script src="shared.js"></script>
+  <script src="companion-sounds.js"></script>
+  <script src="pet.js" defer></script>
+</head>
+<body class="is-idle">
+  <main class="pet-shell" id="petShell" aria-label="رفيق وِنس العائم">
+    <header class="pet-titlebar" data-tauri-drag-region>
+      <div class="pet-brand" data-tauri-drag-region>
+        <span class="live-dot" aria-hidden="true"></span>
+        <span>وِنس معاك</span>
+      </div>
+      <div class="title-actions">
+        <button class="title-button" id="expandedOpenMainButton" type="button" aria-label="فتح تطبيق وِنس">↗</button>
+        <button class="title-button" id="expandedHidePetButton" type="button" aria-label="إخفاء الرفيق">×</button>
+      </div>
+    </header>
+
+    <section class="compact-view" aria-label="رفيق وِنس">
+      <div class="wens-avatar avatar-orb state-idle size-normal" id="companionDragSurface" role="button" tabindex="0" aria-label="اسحب وِنس لتحريكه. اضغط Enter لفتح التذكير">
+        <svg class="wens-hud-ring" viewBox="0 0 120 120" aria-hidden="true">
+          <circle class="hud-ring-track" cx="60" cy="60" r="52" />
+          <circle class="hud-ring-fill" id="hudRingFill" cx="60" cy="60" r="52" stroke-dasharray="326.7" stroke-dashoffset="326.7" />
+        </svg>
+        <span class="wens-shadow" aria-hidden="true"></span>
+        <span class="wens-aura" aria-hidden="true"></span>
+        <span class="wens-body" aria-hidden="true">
+          <!-- Orb specific layers -->
+          <span class="orb-specular" aria-hidden="true"></span>
+          <span class="orb-crevice" aria-hidden="true"></span>
+          <span class="orb-core" aria-hidden="true"></span>
+          <span class="orb-orbit" aria-hidden="true"></span>
+          <!-- Robot specific layers -->
+          <span class="robot-antenna" aria-hidden="true"><i class="antenna-tip"></i></span>
+          <span class="robot-ears" aria-hidden="true"><i class="ear ear-right"></i><i class="ear ear-left"></i></span>
+          <span class="wens-face" aria-hidden="true"><i class="eye eye-right"></i><i class="eye eye-left"></i><i class="smile"></i></span>
+          <span class="robot-chest-core" aria-hidden="true"></span>
+          <!-- Cat specific layers -->
+          <span class="cat-ears" aria-hidden="true"><i class="cat-ear ear-right"><i class="inner-ear"></i></i><i class="cat-ear ear-left"><i class="inner-ear"></i></i></span>
+          <span class="cat-tail" aria-hidden="true"><i class="tail-tip"></i></span>
+          <span class="cat-belly" aria-hidden="true"></span>
+          <span class="cat-face" aria-hidden="true"><i class="cat-eye eye-right"></i><i class="cat-eye eye-left"></i><i class="cat-nose"></i><i class="cat-mouth"></i></span>
+          <span class="cat-whiskers" aria-hidden="true"><i class="whisker whisker-r1"></i><i class="whisker whisker-r2"></i><i class="whisker whisker-l1"></i><i class="whisker whisker-l2"></i></span>
+          <!-- Owl specific layers -->
+          <span class="owl-tufts" aria-hidden="true"><i class="tuft tuft-right"></i><i class="tuft tuft-left"></i></span>
+          <span class="owl-belly" aria-hidden="true"></span>
+          <span class="owl-face" aria-hidden="true"><span class="owl-eye-wrap eye-right"><i class="owl-eye-frame"></i><i class="owl-pupil"></i></span><span class="owl-eye-wrap eye-left"><i class="owl-eye-frame"></i><i class="owl-pupil"></i></span><i class="owl-beak"></i></span>
+          <span class="owl-wings" aria-hidden="true"><i class="wing wing-right"></i><i class="wing wing-left"></i></span>
+          <!-- Crescent specific layers -->
+          <span class="crescent-body-curve" aria-hidden="true"></span>
+          <!-- Plant / Sprout specific layers -->
+          <span class="sprout-pot" aria-hidden="true"><i class="pot-rim"></i></span>
+          <span class="sprout-stem" aria-hidden="true"></span>
+          <span class="sprout-leaves" aria-hidden="true"><i class="sprout-leaf leaf-right"></i><i class="sprout-leaf leaf-left"></i></span>
+          <span class="sprout-bud" aria-hidden="true"></span>
+          <!-- Lantern specific layers -->
+          <span class="lantern-ring" aria-hidden="true"></span>
+          <span class="lantern-cap" aria-hidden="true"></span>
+          <span class="lantern-glass" aria-hidden="true"><span class="lantern-flame"><i class="flame-inner"></i></span></span>
+          <span class="lantern-frame" aria-hidden="true"><i class="frame-bar bar-1"></i><i class="frame-bar bar-2"></i></span>
+          <span class="lantern-base" aria-hidden="true"></span>
+          <!-- General/Legacy layers -->
+          <span class="wens-leaf" aria-hidden="true"></span>
+          <span class="wens-mark" aria-hidden="true">و</span>
+        </span>
+        <span class="event-dot" id="eventDot" aria-hidden="true"></span>
+      </div>
+      <div class="wens-mini-pill" id="companionMiniPill" role="status" aria-live="polite" hidden>
+        <span class="pill-dot" aria-hidden="true"></span>
+        <span class="pill-text" id="companionMiniPillText"></span>
+      </div>
+      <nav class="idle-tools" aria-label="أدوات وِنس السريعة">
+        <button id="drinkPetButton" type="button" aria-label="شربت ماء" title="سجّل شرب كوب ماء 💧">💧</button>
+        <button id="tasbihPetButton" type="button" aria-label="سبحة سريعة" title="سبحة سريعة (٣٣)">📿</button>
+        <button id="revealPetButton" type="button" aria-label="أظهر التذكير" title="أظهر التذكير">◒</button>
+        <button id="openMainButton" type="button" aria-label="افتح تطبيق وِنس" title="افتح وِنس">↗</button>
+        <button id="hidePetButton" type="button" aria-label="إخفاء الرفيق" title="إخفاء">×</button>
+      </nav>
+      <div class="compact-bubble" id="eventBubble">
+        <div class="compact-bubble-head">
+          <strong id="compactMessage">اقترب موعد الصلاة</strong>
+          <button class="compact-bubble-close" id="compactBubbleClose" type="button" aria-label="إغلاق التنبيه">×</button>
+        </div>
+        <div class="compact-prayer-badge" id="compactPrayerBadge" aria-label="الصلاة القادمة">
+          <span class="badge-icon" aria-hidden="true">🕌</span>
+          <span class="badge-countdown" id="compactPrayerCountdown">فاضل … على الصلاة</span>
+          <span class="badge-clock" id="compactPrayerClock">--:--</span>
+        </div>
+        <div class="compact-copy">
+          <span class="compact-kicker" id="compactKicker">استعداد للصلاة</span>
+          <span class="compact-meta" id="compactMeta">الاستعداد للوضوء</span>
+        </div>
+        <div class="compact-bubble-actions">
+          <button class="compact-action" id="compactAction" type="button">صليت</button>
+          <button class="compact-action secondary" id="compactActionLater" type="button">بعد ١٠ دقائق</button>
+        </div>
+      </div>
+      <div class="wens-context-menu" id="wensContextMenu" role="menu" aria-label="خيارات وِنس" hidden>
+        <div class="context-menu-header">
+          <span class="context-menu-brand">
+            <span class="context-menu-dot" aria-hidden="true"></span>
+            <strong>وِنس</strong>
+          </span>
+          <span class="context-menu-hint">خيارات سريعة</span>
+        </div>
+        <div class="context-menu-items">
+          <button class="context-menu-item" id="menuItemOpenMain" type="button" role="menuitem">
+            <span class="item-icon" aria-hidden="true">↗</span>
+            <span class="item-label">فتح وِنس (الرئيسية)</span>
+          </button>
+          <button class="context-menu-item" id="menuItemShowIsland" type="button" role="menuitem">
+            <span class="item-icon" aria-hidden="true">💊</span>
+            <span class="item-label">إظهار كبسولة النوتش</span>
+          </button>
+          <button class="context-menu-item" id="menuItemDailyReview" type="button" role="menuitem">
+            <span class="item-icon" aria-hidden="true">📋</span>
+            <span class="item-label">مراجعة اليوم السريعة</span>
+          </button>
+          <button class="context-menu-item" id="menuItemTasbih" type="button" role="menuitem">
+            <span class="item-icon" aria-hidden="true">📿</span>
+            <span class="item-label">سبحة سريعة (٣٣)</span>
+          </button>
+          <button class="context-menu-item" id="menuItemQuickDrink" type="button" role="menuitem">
+            <span class="item-icon" aria-hidden="true">💧</span>
+            <span class="item-label">شربت كوب ماء</span>
+          </button>
+          <button class="context-menu-item" id="menuItemToggleSound" type="button" role="menuitem">
+            <span class="item-icon" id="menuSoundIcon" aria-hidden="true">🔔</span>
+            <span class="item-label" id="menuSoundLabel">كتم صوت التفاعل</span>
+          </button>
+          <div class="context-menu-divider" role="separator"></div>
+          <button class="context-menu-item" id="menuItemHidePet" type="button" role="menuitem">
+            <span class="item-icon" aria-hidden="true">👁</span>
+            <span class="item-label">إخفاء الرفيق مؤقتاً</span>
+          </button>
+          <button class="context-menu-item danger" id="menuItemQuitApp" type="button" role="menuitem">
+            <span class="item-icon" aria-hidden="true">✕</span>
+            <span class="item-label">إغلاق التطبيق</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="expanded-view" aria-label="مراجعة اليوم" hidden>
+      <div class="companion-intro">
+        <div class="mini-wens" aria-hidden="true"><span><i></i><i></i></span><b>و</b></div>
+        <div>
+          <span class="intro-label">المشاركة اليومية</span>
+          <h1 id="checkinTitle">نراجع يومك في دقيقة؟</h1>
+          <p id="checkinSubtitle">من غير حُكم ولا سلاسل؛ بس عشان تبقى شايف يومك.</p>
+        </div>
+        <button class="collapse-button" id="collapsePetButton" type="button" aria-label="تصغير الرفيق">⌄</button>
+      </div>
+
+      <div class="avatar-picker-row" id="avatarPickerRow" aria-label="اختر شخصية الرفيق">
+        <button type="button" class="avatar-pick-btn active" data-avatar="orb"><span class="avatar-pick-icon">✦</span><span>الكرة</span></button>
+        <button type="button" class="avatar-pick-btn" data-avatar="robot"><span class="avatar-pick-icon">🤖</span><span>الروبوت</span></button>
+        <button type="button" class="avatar-pick-btn" data-avatar="cat"><span class="avatar-pick-icon">🐱</span><span>القط</span></button>
+        <button type="button" class="avatar-pick-btn" data-avatar="owl"><span class="avatar-pick-icon">🦉</span><span>البومة</span></button>
+        <button type="button" class="avatar-pick-btn" data-avatar="crescent"><span class="avatar-pick-icon">🌙</span><span>الهلال</span></button>
+        <button type="button" class="avatar-pick-btn" data-avatar="sprout"><span class="avatar-pick-icon">🌱</span><span>النبتة</span></button>
+        <button type="button" class="avatar-pick-btn" data-avatar="lantern"><span class="avatar-pick-icon">🏮</span><span>الفانوس</span></button>
+      </div>
+
+      <section class="work-timer" aria-labelledby="timerTitle">
+        <div class="timer-heading">
+          <div><span>عداد الشغل</span><strong id="timerTitle">وِنس شايف الوقت الحقيقي</strong></div>
+          <span class="timer-state" id="timerState">جاهز</span>
+        </div>
+        <div class="timer-readout" id="timerReadout">٠٠:٠٠:٠٠</div>
+        <div class="timer-summary"><span>إجمالي النهارده</span><strong id="todayWorkTotal">٠٠:٠٠</strong></div>
+        <div class="timer-actions">
+          <button class="primary-action" id="timerToggleButton" type="button">ابدأ شغل</button>
+          <button class="secondary-action" id="timerFinishButton" type="button" disabled>أنهي وسجّل</button>
+        </div>
+      </section>
+
+      <div class="daily-progress" aria-label="تقدم مراجعة اليوم">
+        <span>خلصت <strong id="answeredCount">٠</strong> من <strong id="totalCount">٦</strong></span>
+        <span class="progress-track"><i id="progressFill"></i></span>
+      </div>
+
+      <section class="checkin-question" id="prayerQuestion">
+        <div class="question-icon prayer-icon" aria-hidden="true">◒</div>
+        <div class="question-copy">
+          <span>الصلاة</span>
+          <strong id="prayerPrompt">صليت الصلاة الحالية؟</strong>
+          <small id="prayerStatus">ردك يفضل على جهازك</small>
+        </div>
+        <div class="answer-actions" id="prayerAnswers">
+          <button type="button" data-prayer-answer="done">أيوه صليت</button>
+          <button type="button" data-prayer-answer="later">لسه، فكّرني</button>
+        </div>
+        <div class="prayer-checklist" id="prayerChecklist" aria-label="قائمة الصلاة اليومية"></div>
+      </section>
+
+      <section class="checkin-question" id="fastingQuestion">
+        <div class="question-icon fasting-icon" aria-hidden="true">☾</div>
+        <div class="question-copy">
+          <span>الصيام</span>
+          <strong>صايم النهارده؟</strong>
+          <small id="fastingStatus">اختار الإجابة المناسبة لليوم</small>
+        </div>
+        <div class="answer-actions three" id="fastingAnswers">
+          <button type="button" data-fasting-answer="yes">صايم</button>
+          <button type="button" data-fasting-answer="no">مش صايم</button>
+          <button type="button" data-fasting-answer="not-planned">مش يوم صيام</button>
+        </div>
+      </section>
+
+      <section class="checkin-question work-question" id="workQuestion">
+        <div class="question-icon work-icon" aria-hidden="true">▣</div>
+        <label class="question-copy" for="workNote">
+          <span>الإنجاز</span>
+          <strong>عملت إيه من آخر مرة؟</strong>
+          <small>حتى لو خطوة صغيرة جدًا</small>
+        </label>
+        <div class="task-section">
+          <div class="task-section-head"><span>قائمة شغلك</span><strong id="taskProgress">مفيش مهام لسه</strong></div>
+          <div class="daily-task-list" id="dailyTaskList"></div>
+          <div class="task-add-row">
+            <input id="dailyTaskInput" maxlength="90" autocomplete="off" placeholder="ضيف حاجة عايز تخلصها" />
+            <button id="addDailyTaskButton" type="button">＋</button>
+          </div>
+        </div>
+        <div class="work-note-row">
+          <input id="workNote" maxlength="140" autocomplete="off" placeholder="مثلاً: كتبت ٣ أفكار للحملة" />
+          <button id="saveWorkNoteButton" type="button">سجّل ملخص</button>
+        </div>
+        <p class="saved-note" id="savedWorkNote" hidden></p>
+      </section>
+
+      <footer class="pet-footer">
+        <span><i aria-hidden="true">▣</i> كل الردود والوقت محفوظين محليًا</span>
+        <button id="openMainFooterButton" type="button">افتح يومي كاملًا ←</button>
+      </footer>
+    </section>
+  </main>
+  <div class="pet-toast" id="petToast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

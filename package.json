@@ -1,0 +1,28 @@
+{
+  "name": "wens-offline-companion",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "description": "Wens — an offline-first desktop companion for prayer, fasting and creative work.",
+  "type": "module",
+  "workspaces": [
+    "apps/app-ui"
+  ],
+  "scripts": {
+    "dev": "node server.mjs",
+    "start": "node server.mjs",
+    "test": "node smoke-test.mjs && node prayer-regression-test.mjs && cargo test --workspace && npm run test:vnext",
+    "dev:vnext": "npm run dev --workspace @wens/app-ui",
+    "build:vnext": "npm run build --workspace @wens/app-ui",
+    "test:vnext": "npm run build --workspace @wens/app-ui && npm test --workspace @wens/app-ui",
+    "test:companion": "npm run desktop:sync && node test-companion-full-suite.mjs && node test-headless-companion.mjs && node test-context-menu-and-clicks.mjs",
+    "build:android:debug": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build-android-debug.ps1",
+    "desktop:dev": "node run-tauri.mjs dev",
+    "desktop:sync": "node sync-desktop-assets.mjs",
+    "sync:desktop": "node sync-desktop-assets.mjs",
+    "desktop:build": "node run-tauri.mjs build"
+  },
+  "devDependencies": {
+    "playwright-core": "1.65.1"
+  }
+}

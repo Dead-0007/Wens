@@ -1,0 +1,1093 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#171217" />
+    <meta name="description" content="وِنس · رفيقك المحلي للصلاة والصيام والمشروعات والإبداع." />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='16' fill='%23bc347c'/><path d='M17 20v24M31 20v24M45 20v24' stroke='%23fff' stroke-width='6' stroke-linecap='round'/></svg>" />
+    <title>وِنس · خليك قريب، وكمّل اللي بدأته</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script>
+      window.addEventListener('contextmenu', function(e) { e.preventDefault(); }, true);
+    </script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="التنقل الرئيسي">
+        <div class="brand-lockup">
+          <div class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div>
+            <div class="brand-name">وِنس</div>
+            <div class="brand-caption">رفيقك المحلي</div>
+          </div>
+        </div>
+
+        <div class="offline-chip"><span class="status-dot"></span> يعمل أوفلاين</div>
+
+        <nav class="nav-list">
+          <button class="nav-item active" data-view="today"><span class="nav-icon">☼</span><span>اليوم</span></button>
+          <button class="nav-item" data-view="home"><span class="nav-icon">⌂</span><span>غرفتي</span></button>
+          <button class="nav-item" data-view="prayer"><span class="nav-icon">◒</span><span>صلاتي</span></button>
+          <button class="nav-item" data-view="fasting"><span class="nav-icon">☾</span><span>صيامي</span></button>
+          <button class="nav-item" data-view="devotion"><span class="nav-icon devotion-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5.5c3.2-.9 5.8-.4 8 1.4v12c-2.2-1.8-4.8-2.3-8-1.4zM20 5.5c-3.2-.9-5.8-.4-8 1.4v12c2.2-1.8 4.8-2.3 8-1.4z" /></svg></span><span>الورد والأذكار</span></button>
+          <button class="nav-item" data-view="challenges"><span class="nav-icon challenge-nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 4h12v4c0 4.4-2.7 7.4-6 7.4S6 12.4 6 8V4Zm3 12.5h6M12 15.5V20M8.5 20h7" /></svg></span><span>التحديات</span><span class="nav-count" id="challengeNavCount" hidden>٠</span></button>
+          <button class="nav-item" data-view="missed"><span class="nav-icon">↺</span><span>الفائت</span><span class="nav-count" id="missedNavCount" hidden>٠</span></button>
+          <button class="nav-item" data-view="projects"><span class="nav-icon">▣</span><span>مشاريعي</span></button>
+          <button class="nav-item" data-view="studio"><span class="nav-icon">✦</span><span>معمل الإبداع</span></button>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <button class="nav-item subtle" data-action="backup"><span class="nav-icon">↥</span><span>تصدير نسخة</span></button>
+          <button class="nav-item subtle" data-action="restore"><span class="nav-icon">↧</span><span>استعادة نسخة</span></button>
+          <button class="nav-item subtle" data-action="settings"><span class="nav-icon">⚙</span><span>الإعدادات</span></button>
+          <div class="privacy-note"><span>▣</span><span>بياناتك محلية · الطقس بموافقتك</span></div>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div class="topbar-context">
+            <span class="date-kicker" id="todayLabel">الأربعاء، ٢٦ أغسطس ٢٠٢٦</span>
+            <span class="location-label" id="locationLabel">القاهرة، مصر · توقيت محلي تلقائي</span>
+          </div>
+          <div class="topbar-actions">
+            <button class="icon-button" data-action="quick-idea" aria-label="أضف فكرة" title="أضف فكرة (Ctrl+I)">＋</button>
+            <button class="icon-button notification-trigger" data-action="notifications" aria-label="التنبيهات" aria-expanded="false" aria-controls="notificationPopover" title="التنبيهات"><span class="bell-icon">♢</span><span class="notification-badge" id="notificationBadge" hidden>0</span></button>
+            <button class="avatar-button" data-action="settings" aria-label="فتح الإعدادات" id="topbarAvatarButton" title="الإعدادات">🌱</button>
+            <section class="notification-popover" id="notificationPopover" aria-label="مركز التنبيهات" hidden>
+              <div class="notification-popover-head"><div><strong>على رادار وِنس</strong><span>كلها محلية على جهازك</span></div><button type="button" class="popover-close" data-action="dismiss-notifications" aria-label="إغلاق">×</button></div>
+              <div class="notification-feed" id="notificationFeed"></div>
+              <button class="button secondary full-button notification-demo" type="button" data-action="demo-popup">جرّب البوب أب دلوقتي</button>
+            </section>
+          </div>
+        </header>
+
+        <!-- TODAY VIEW (المراجعة اليومية الشاملة والموحدة) -->
+        <section class="view active-view" data-view-panel="today">
+          <div class="today-hero reveal">
+            <div class="today-hero-copy">
+              <div class="eyebrow"><span class="eyebrow-line"></span>مراجعة اليوم الموحدة</div>
+              <h1>يومك في مساحة واحدة</h1>
+              <p>سجّل صلاتك وصيامك وخطوات شغلك بدون لوم أو Streaks. كل شيء محفوظ محليًا عندك.</p>
+              <div class="today-hero-badges">
+                <span class="hero-chip" id="todayHijriBadge">جارٍ قراءة التقويم…</span>
+                <span class="hero-chip" id="todayFastingBadge">مش يوم صيام مخطط</span>
+                <span class="hero-chip warm" id="todayScoreBadge">راجع اللي خلصته واللي باقي</span>
+              </div>
+              <div class="today-hero-actions">
+                <button type="button" class="button secondary small-button" data-action="export-summary">📋 نسخ تقرير اليوم (Markdown)</button>
+                <button type="button" class="button ghost small-button" data-action="open-athkar">📿 أذكار وخواطر خفيفة</button>
+              </div>
+            </div>
+            <div class="today-hero-stats">
+              <div class="stat-box">
+                <span class="stat-label">الصلاة القادمة</span>
+                <strong class="stat-value" id="todayNextPrayerName">الظهر</strong>
+                <small class="stat-sub" id="todayNextPrayerTime">١٢:٠١ م</small>
+              </div>
+              <div class="stat-box">
+                <span class="stat-label">موعد الوضوء</span>
+                <strong class="stat-value" id="todayWuduTime">١١:٤٦ ص</strong>
+                <small class="stat-sub" id="todayWuduMeta">قبل الأذان بـ١٥ دقيقة</small>
+              </div>
+              <div class="stat-box">
+                <span class="stat-label">وقت الشغل اليوم</span>
+                <strong class="stat-value" id="todayWorkTotalHeader">٠٠:٠٠</strong>
+                <small class="stat-sub" id="todayWorkSessionsCount">٠ جلسات</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="today-grid">
+            <!-- قسم العبادة والصلاة -->
+            <article class="panel today-worship-panel reveal delay-1">
+              <div class="panel-heading">
+                <div>
+                  <span class="section-label">العبادة اليوم</span>
+                  <h2>الصلوات والصيام</h2>
+                </div>
+                <span class="prayer-symbol">◒</span>
+              </div>
+              <div class="today-prayer-checklist" id="todayPrayerChecklist">
+                <!-- Checklist buttons injected dynamically -->
+              </div>
+              <button type="button" class="backlog-jump" id="prayerBacklogJump" data-action="prayer-backlog" hidden>راجع الصلوات المعلّقة</button>
+              <div class="today-fasting-row">
+                <div class="fasting-row-label">
+                  <strong>حالة الصيام اليوم</strong>
+                  <small id="todayFastingStatusText">سجّل نيتك بهدوء</small>
+                </div>
+                <div class="fasting-choice-buttons">
+                  <button type="button" class="choice-btn" data-today-fast="yes">صائم اليوم ☾</button>
+                  <button type="button" class="choice-btn" data-today-fast="no">مش صائم</button>
+                  <button type="button" class="choice-btn" data-today-fast="not-planned">مش يوم صيام</button>
+                </div>
+              </div>
+              <div class="today-devotion-row">
+                <div><strong id="todayDevotionTitle">الورد والأذكار</strong><small id="todayDevotionStatus">اختياريان ومقفولان لحد ما تفعّلهم</small></div>
+                <button class="text-button" type="button" data-view-target="devotion">فتح الورد والأذكار <span>←</span></button>
+              </div>
+              <div class="panel-footer">
+                <span id="todayIftarRemaining">المغرب ميعاده ٠٦:١٨ م</span>
+                <button class="text-button" data-view-target="prayer">تفاصيل المواقيت <span>←</span></button>
+              </div>
+            </article>
+
+            <!-- قسم الشغل والمهام -->
+            <article class="panel today-work-panel reveal delay-2">
+              <div class="panel-heading">
+                <div>
+                  <span class="section-label">الشغل والتركيز</span>
+                  <h2>عداد العمل والمهام</h2>
+                </div>
+                <span class="status-pill" id="todayTimerBadge">جاهز</span>
+              </div>
+
+              <div class="today-stopwatch-card">
+                <div class="stopwatch-display">
+                  <strong id="todayTimerDisplay">٠٠:٠٠:٠٠</strong>
+                  <span id="todayTimerMeta">إجمالي شغل اليوم: <b id="todayWorkTotal">٠٠:٠٠</b></span>
+                </div>
+                <div class="stopwatch-actions">
+                  <button type="button" class="button primary small-button" id="todayTimerToggle">ابدأ الشغل</button>
+                  <button type="button" class="button ghost small-button" id="todayTimerFinish" disabled>إنهاء الجلسة</button>
+                </div>
+              </div>
+
+              <div class="today-tasks-section">
+                <div class="tasks-head">
+                  <strong>مهام اليوم السريعة</strong>
+                  <span id="todayTasksCount">٠ مهام</span>
+                </div>
+                <div class="rollover-banner" id="tasksRolloverBanner" hidden>
+                  <span>📋 فيه مهام لم تكتمل من أمس (<b id="rolloverTasksCount">0</b>)</span>
+                  <button type="button" class="button ghost small-button" id="rolloverTasksBtn">ترحيلها لليوم ＋</button>
+                </div>
+                <div class="today-task-add-row">
+                  <input type="text" class="text-input" id="todayTaskInput" placeholder="اكتب خطوة صغيرة للنهارده واضغط Enter…" />
+                  <button type="button" class="button secondary small-button" id="todayTaskAddBtn">＋</button>
+                </div>
+                <div class="today-tasks-list" id="todayTasksList">
+                  <p class="task-empty">مفيش مهام مضافة النهارده. أضف أصغر خطوة حابب تنجزها.</p>
+                </div>
+              </div>
+
+              <div class="today-work-note-section">
+                <label for="todayWorkNoteInput" class="field-label">عملت إيه النهارده؟ <span>(ملخص سريع)</span></label>
+                <div class="note-input-row">
+                  <input type="text" class="text-input" id="todayWorkNoteInput" placeholder="مثلاً: راجعت الـBrief وكتبت ٣ نسخ إعلانية" />
+                  <button type="button" class="button secondary small-button" id="todayWorkNoteSaveBtn">حفظ</button>
+                </div>
+                <small class="saved-note-text" id="todaySavedNoteText" hidden></small>
+              </div>
+
+              <div class="today-sessions-section">
+                <div class="tasks-head">
+                  <strong>جلسات عمل اليوم</strong>
+                  <button type="button" class="text-button" id="toggleSessionsLogBtn">عرض السجل (<span id="sessionsCountLabel">٠</span>) <span>▼</span></button>
+                </div>
+                <div class="today-sessions-list" id="todaySessionsList" hidden></div>
+              </div>
+            </article>
+          </div>
+
+        </section>
+
+        <!-- HOME VIEW (غرفتي) -->
+        <section class="view" data-view-panel="home">
+          <div class="home-hero">
+            <div class="hero-copy reveal">
+              <div class="eyebrow"><span class="eyebrow-line"></span>غرفة اليوم</div>
+              <h1>خد نفس…<br /><em>وكمّل بهدوء.</em></h1>
+              <p>وِنس موجود عشان يظبط إيقاع يومك بين الصلاة، الصيام، والحاجة اللي نفسك تبنيها.</p>
+              <div class="hero-actions">
+                <button class="button primary" data-view-target="today"><span class="button-dot"></span>راجع يومي الآن</button>
+                <button class="button secondary" data-action="focus">جلسة تركيز</button>
+                <button class="button ghost" data-action="quick-idea">اكتب فكرة <span>↗</span></button>
+              </div>
+            </div>
+
+            <div class="room-scene reveal delay-1" aria-label="غرفة وِنس التفاعلية">
+              <div class="window-light"><span class="moon">◐</span><span class="star star-a">·</span><span class="star star-b">·</span><span class="star star-c">·</span></div>
+              <div class="room-shelf"><span class="shelf-book book-1"></span><span class="shelf-book book-2"></span><span class="shelf-book book-3"></span><span class="shelf-plant">♧</span></div>
+              <div class="room-desk"><span class="desk-line"></span><span class="desk-cup">◡</span><span class="desk-note">الخطوة<br /><strong>التالية</strong></span></div>
+              <div class="pet-wrap" id="petWrap">
+                <div class="pet-bubble" id="petBubble">أهلاً بك… خطوة واحدة بهدوء.<div class="bubble-tail"></div></div>
+                <button class="room-wens" data-action="pet" aria-label="تفاعل مع رفيق وِنس"><span class="room-wens-shadow"></span><span class="room-wens-body"><i class="room-wens-leaf"></i><span class="room-wens-face"><i></i><i></i><b></b></span><em>و</em></span></button>
+              </div>
+              <div class="room-rug"></div>
+              <div class="room-label"><span class="lamp-dot"></span>غرفة هادئة · <span id="roomTime">٠٩:٤٢ ص</span></div>
+            </div>
+          </div>
+
+          <div class="home-grid">
+            
+
+            <article class="panel focus-panel reveal delay-3" id="homeFocusPanel">
+              <div class="panel-heading"><div><span class="section-label">مساحتي الآن</span><h2 id="homeFocusTitle">مشروعك النشط</h2></div><span class="status-pill warm" id="homeFocusStatus">قيد التنفيذ</span></div>
+              <div class="focus-meta"><span id="homeFocusProjectName">مشروع: <strong>—</strong></span><span id="homeFocusStepMeta">الخطوة التالية</span></div>
+              <div class="focus-progress"><span id="homeFocusProgressBar" style="width: 25%"></span></div>
+              <div class="panel-footer"><span class="next-step" id="homeFocusNextStep"><span class="check-ring"></span> حدد أصغر خطوة تالية</span><button class="text-button" data-view-target="projects">فتح المشروع <span>←</span></button></div>
+            </article>
+
+            
+
+            <article class="panel local-context-panel reveal delay-5" aria-labelledby="localContextTitle">
+              <div class="context-heading">
+                <div><span class="section-label">قراءاتك المحلية</span><h2 id="localContextTitle">الجو والاقتصاد في لمحة</h2></div>
+                <div class="context-actions">
+                  <button class="button primary small-button" type="button" data-action="weather-refresh">تحديث الطقس</button>
+                  <button class="button ghost small-button" type="button" data-action="context-update">إدخال يدوي</button>
+                </div>
+              </div>
+              <div class="context-content">
+                <section class="weather-context" aria-label="حالة الجو">
+                  <span class="context-icon weather-icon" id="weatherContextIcon" aria-hidden="true">◌</span>
+                  <div class="weather-values"><strong id="weatherTemperature">غير مسجلة</strong><span id="weatherHumidity">الرطوبة غير مسجلة</span></div>
+                  <div class="context-copy"><span>الجو</span><strong id="weatherCondition">اضغط تحديث الطقس</strong><small id="weatherExtra">الحرارة والرطوبة تتحدثان من موقعك</small><small id="weatherAssessment" class="sr-only">حالة الطقس</small></div>
+                </section>
+                <section class="economy-context" aria-label="المؤشرات الاقتصادية">
+                  <div class="context-copy"><span>الاقتصاد</span><strong id="economyAssessment">لسه مفيش لقطة اقتصادية</strong><small id="economyNote">سجّل أرقامك علشان تقارنها بالمرة الجاية</small></div>
+                  <div class="economy-values">
+                    <div><span>دولار/جنيه</span><strong id="economyUsd">غير مسجل</strong><small id="economyUsdTrend">غير مسجل</small></div>
+                    <div><span>ذهب ٢١</span><strong id="economyGold">غير مسجل</strong><small id="economyGoldTrend">غير مسجل</small></div>
+                    <div><span>تضخم</span><strong id="economyInflation">غير مسجل</strong><small id="economyInflationTrend">غير مسجل</small></div>
+                  </div>
+                </section>
+              </div>
+              <footer class="context-footer"><span id="localContextUpdated">لم تُسجّل أي قراءة بعد</span><span id="weatherSourceNote">الطقس يحتاج اتصالًا؛ الصلاة تعمل أوفلاين</span></footer>
+            </article>
+          </div>
+
+          <div class="lower-grid">
+            
+            <section class="panel rhythm-panel reveal delay-5">
+              <div class="section-head"><div><span class="section-label">إيقاع الأسبوع</span><h2>ماذا أنجزت؟</h2></div><span class="week-total" id="weekTotal">٠س ٠د</span></div>
+              <div class="week-bars" id="weekBars" aria-label="وقت التركيز خلال الأسبوع"></div>
+              <p class="rhythm-note"><span class="tiny-spark">✦</span> أنت أحسن لما تبدأ بجلسة صغيرة.</p>
+            </section>
+          </div>
+        </section>
+
+        <!-- PRAYER VIEW (صلاتي) -->
+        <section class="view" data-view-panel="prayer">
+          <div class="page-heading"><div><span class="eyebrow"><span class="eyebrow-line"></span>إيقاع اليوم</span><h1>صلاتي</h1><p>مواقيتك محسوبة محليًا على جهازك، وتقدر تعدّلها بما يطابق جدولك.</p></div><button class="button secondary" data-action="settings">تعديل المكان والطريقة</button></div>
+          <div class="prayer-layout">
+            <div class="prayer-main panel">
+              <div class="today-prayer-head">
+                <div><span class="section-label" id="prayerViewDateLabel">مواقيت اليوم</span><h2>جدول الصلاة</h2></div>
+                <div class="head-actions">
+                  <span class="local-badge"><span class="status-dot"></span>محسوبة محليًا</span>
+                  <button class="button ghost small-button" type="button" data-action="month-prayer">جدول الشهر</button>
+                </div>
+              </div>
+              <div class="prayer-list" id="prayerList"></div>
+            </div>
+            <aside class="prayer-side">
+              <div class="panel qibla-card">
+                <span class="section-label">اتجاه القبلة</span>
+                <div class="qibla-display">
+                  <div class="qibla-compass"><span class="qibla-needle" id="qiblaNeedle"></span><span class="qibla-kabaa">🕋</span></div>
+                  <div>
+                    <strong id="qiblaAngle">١٣٦° جنوب شرق</strong>
+                    <small id="qiblaCoordinates">محسوبة من إحداثياتك الحالية</small>
+                  </div>
+                </div>
+              </div>
+              <div class="panel prayer-note-card">
+                <span class="note-quote">“</span>
+                <p>التذكير مش عشان يضغط عليك؛ عشان يديك لحظة توقف.</p>
+                <span class="note-sign">وِنس</span>
+              </div>
+              <div class="panel settings-summary">
+                <span class="section-label">إعدادات التذكير</span>
+                <label class="toggle-row"><span>تنبيهات متكررة: ٦٠، ٣٠، ١٥، ١٠، ٥ دقائق</span><input type="checkbox" checked data-setting="prePrayer" /><span class="toggle"></span></label>
+                <label class="toggle-row"><span>تنبيه الأذان ودخول الوقت</span><input type="checkbox" checked data-setting="atPrayer" /><span class="toggle"></span></label>
+                <label class="toggle-row"><span>الوضع الهادئ أثناء الصلاة</span><input type="checkbox" checked data-setting="quietPrayer" /><span class="toggle"></span></label>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <!-- FASTING VIEW (صيامي) -->
+        <section class="view" data-view-panel="fasting">
+          <div class="page-heading">
+            <div>
+              <span class="eyebrow"><span class="eyebrow-line"></span>النية على مهلك</span>
+              <h1>صيامي</h1>
+              <p>متابعة سنن الصيام، مواقيت الإمساك والإفطار، وتخصيص منبه السحور الذكي بدقة وبلا تشتيت.</p>
+            </div>
+            <div class="heading-actions">
+              <span class="hijri-chip" id="fastingHeaderHijri">--</span>
+              <button class="button secondary" data-action="add-fast">＋ أضف يومًا</button>
+            </div>
+          </div>
+
+          <div class="fasting-layout">
+            <!-- العمود الرئيسي (اليوم ومنبه السحور) -->
+            <div class="fasting-main-column">
+              <!-- بطاقة اليوم -->
+              <div class="panel fast-today-card">
+                <div class="fast-card-sky">
+                  <span class="big-moon">☾</span>
+                  <span class="sky-star one">✦</span>
+                  <span class="sky-star two">·</span>
+                  <div class="fast-today-sky-copy">
+                    <span class="section-label">اليوم</span>
+                    <h2 id="fastTodayTitle">مش يوم صيام مخطط</h2>
+                    <p id="fastTodaySubtitle">سجّل نيتك بهدوء أو راجع مواقيت الصيام لهذا اليوم.</p>
+                  </div>
+                </div>
+
+                <div class="fast-times-grid">
+                  <div class="fast-time-cell">
+                    <span class="time-label">الإمساك (الفجر)</span>
+                    <strong class="time-val" id="fastTodayFajrTime">--:--</strong>
+                    <small class="time-sub">موعد بدء الصيام</small>
+                  </div>
+                  <div class="fast-time-cell highlight">
+                    <span class="time-label">الإفطار (المغرب)</span>
+                    <strong class="time-val" id="fastTodayMaghribTime">--:--</strong>
+                    <small class="time-sub" id="fastTodayCountdown">باقي على المغرب</small>
+                  </div>
+                </div>
+
+                <div class="fast-today-actions">
+                  <span class="field-label">حالة الصيام اليوم:</span>
+                  <div class="fast-status-buttons" role="group" aria-label="تسجيل حالة الصيام اليوم">
+                    <button type="button" class="fast-status-btn" data-fast-choice="yes" data-action="mark-fast">
+                      <span class="status-btn-icon">☾</span>
+                      <span>صائم اليوم</span>
+                    </button>
+                    <button type="button" class="fast-status-btn" data-fast-choice="no">
+                      <span class="status-btn-icon">✕</span>
+                      <span>مش صائم</span>
+                    </button>
+                    <button type="button" class="fast-status-btn" data-fast-choice="not-planned">
+                      <span class="status-btn-icon">◌</span>
+                      <span>مش يوم صيام</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- منبه السحور -->
+              <div class="panel suhoor-alarm-panel">
+                <div class="suhoor-panel-head">
+                  <div class="suhoor-panel-title">
+                    <span class="section-label">تنبيهات الاستيقاظ والسحور</span>
+                    <h3>منبه السحور الذكي</h3>
+                    <p class="suhoor-panel-desc">يُطلق تنبيهاً صوتياً هادئاً في أوقات الصيام المحددة لتناول السحور وتجديد النية.</p>
+                  </div>
+                  <label class="feature-switch" for="suhoorAlarmEnabled">
+                    <input type="checkbox" id="suhoorAlarmEnabled" checked />
+                    <span class="feature-switch-track"></span>
+                  </label>
+                </div>
+
+                <!-- شريط الحالة الحي والملخص -->
+                <div class="suhoor-live-banner" id="suhoorLiveBanner">
+                  <span class="live-banner-icon">🔔</span>
+                  <div class="live-banner-copy">
+                    <strong id="suhoorLiveStatusTitle">منبه السحور مفعّل</strong>
+                    <span id="suhoorLiveStatusDesc">سيرن المنبه في مواعيد الصيام المحددة أدناه.</span>
+                  </div>
+                </div>
+
+                <div class="suhoor-alarm-body" id="suhoorAlarmBody">
+                  <div class="suhoor-time-customizer">
+                    <span class="field-label">طريقة احتساب وقت السحور:</span>
+                    <div class="suhoor-mode-pills" role="radiogroup" aria-label="طريقة تحديد وقت السحور">
+                      <button type="button" class="theme-pill" data-suhoor-mode="relative">قبل أذان الفجر بدقائق (تلقائي)</button>
+                      <button type="button" class="theme-pill" data-suhoor-mode="time">ساعة محددة أضعها بنفسي</button>
+                    </div>
+
+                    <div id="suhoorLeadInputContainer" class="suhoor-input-box" hidden>
+                      <label for="suhoorLeadMinutes"><span>عدد الدقائق قبل أذان الفجر:</span></label>
+                      <div class="number-suffix">
+                        <input type="number" id="suhoorLeadMinutes" class="text-input" min="5" max="180" step="5" value="45" />
+                        <small>دقيقة قبل الفجر</small>
+                      </div>
+                      <div class="quick-minutes-row">
+                        <button type="button" class="quick-lead-pill" data-quick-lead="30">٣٠ دقيقة</button>
+                        <button type="button" class="quick-lead-pill" data-quick-lead="45">٤٥ دقيقة</button>
+                        <button type="button" class="quick-lead-pill" data-quick-lead="60">٦٠ دقيقة</button>
+                        <button type="button" class="quick-lead-pill" data-quick-lead="90">٩٠ دقيقة</button>
+                      </div>
+                      <small class="field-help">يتغير وقت الرنين تلقائياً مع تغيّر موعد أذان الفجر اليومي لضمان الدقة.</small>
+                    </div>
+
+                    <div id="suhoorTimeInputContainer" class="suhoor-input-box" hidden>
+                      <label for="suhoorCustomTime"><span>الساعة الثابتة التي ترغب بالرنين عندها:</span></label>
+                      <div class="time-input-wrap">
+                        <input type="time" id="suhoorCustomTime" class="text-input time-picker-input" value="03:30" />
+                      </div>
+                      <small class="field-help">يرن المنبه دائماً في هذه الساعة بدقة بغض النظر عن موعد الفجر.</small>
+                    </div>
+                  </div>
+
+                  <div class="suhoor-days-list">
+                    <div class="suhoor-days-title-row">
+                      <span class="field-label">أيام تشغيل منبه السحور:</span>
+                      <small class="field-hint">تأكد من تفعيل سنن الصيام من قائمة التفضيلات أيضاً</small>
+                    </div>
+                    <label class="toggle-row suhoor-day-row">
+                      <span><span class="pref-icon">◌</span> شهر رمضان المبارك <span class="status-pill soft suhoor-badge">أساسي</span></span>
+                      <input type="checkbox" checked data-suhoor-setting="ramadan" />
+                      <span class="toggle"></span>
+                    </label>
+                    <label class="toggle-row suhoor-day-row">
+                      <span><span class="pref-icon">✦</span> الأيام البيض (١٣، ١٤، ١٥ هـ) <span class="status-pill pale suhoor-badge">اختياري</span></span>
+                      <input type="checkbox" data-suhoor-setting="whiteDays" />
+                      <span class="toggle"></span>
+                    </label>
+                    <label class="toggle-row suhoor-day-row">
+                      <span><span class="pref-icon">☾</span> صيام الاثنين والخميس <span class="status-pill pale suhoor-badge">اختياري</span></span>
+                      <input type="checkbox" data-suhoor-setting="mondayThursday" />
+                      <span class="toggle"></span>
+                    </label>
+                    <label class="toggle-row suhoor-day-row">
+                      <span><span class="pref-icon">◒</span> أيام الصيام المخصصة والقضاء <span class="status-pill pale suhoor-badge">اختياري</span></span>
+                      <input type="checkbox" data-suhoor-setting="custom" />
+                      <span class="toggle"></span>
+                    </label>
+                  </div>
+
+                  <div class="suhoor-actions-row">
+                    <button class="button secondary full-button test-suhoor-btn" type="button" data-action="test-suhoor-alarm">
+                      <span class="test-icon">♫</span>
+                      <span>اختبر صوت وتنبيه السحور الآن</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- العمود الثاني (السنن والأجندة والتقويم) -->
+            <div class="fasting-side-column">
+              <!-- تفضيلات سنن الصيام -->
+              <div class="panel fasting-preferences">
+                <div class="preferences-head">
+                  <div>
+                    <span class="section-label">سنن وتذكيرات الصيام</span>
+                    <h3>أيام الصيام المعتمدة</h3>
+                  </div>
+                  <span class="status-pill soft" id="fastingRhythmCounter">هذا الشهر: ٠ أيام</span>
+                </div>
+                <p class="preferences-sub">اختر الأيام التي تحرص على صيامها لتظهر في جدولك وتنبيهاتك المحلية دون لوم.</p>
+
+                <div class="fast-preference-toggles">
+                  <label class="toggle-row">
+                    <div class="pref-info">
+                      <span class="pref-icon">☾</span>
+                      <div>
+                        <strong>صيام الاثنين والخميس</strong>
+                        <small>تذكير الليلة السابقة ومنبه السحور</small>
+                      </div>
+                    </div>
+                    <input type="checkbox" checked data-fast-setting="mondayThursday" />
+                    <span class="toggle"></span>
+                  </label>
+
+                  <label class="toggle-row">
+                    <div class="pref-info">
+                      <span class="pref-icon">✦</span>
+                      <div>
+                        <strong>الأيام البيض (١٣، ١٤، ١٥)</strong>
+                        <small>حسب التقويم الهجري المعتمد</small>
+                      </div>
+                    </div>
+                    <input type="checkbox" checked data-fast-setting="whiteDays" />
+                    <span class="toggle"></span>
+                  </label>
+
+                  <label class="toggle-row">
+                    <div class="pref-info">
+                      <span class="pref-icon">◌</span>
+                      <div>
+                        <strong>شهر رمضان المبارك</strong>
+                        <small>صيام الفريضة والبركة</small>
+                      </div>
+                    </div>
+                    <input type="checkbox" checked data-fast-setting="ramadan" />
+                    <span class="toggle"></span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- جدول وأجندة الصيام القادمة -->
+              <div class="panel fasting-agenda-panel">
+                <div class="today-fast-header">
+                  <div>
+                    <span class="section-label">الجدول الزمني</span>
+                    <h2>مواعيد الصيام القادمة</h2>
+                  </div>
+                  <button class="mini-text-btn" data-action="add-fast">＋ إضافة يوم</button>
+                </div>
+                <p class="agenda-desc">أقرب فرص ومواعيد الصيام المرتقبة بناءً على اختياراتك:</p>
+
+                <div class="fasting-agenda-list" id="fastingAgendaList">
+                  <!-- يُملأ ديناميكياً من app.js -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- DEVOTION VIEW -->
+        <section class="view" data-view-panel="devotion">
+          <div class="page-heading devotion-page-heading">
+            <div><h1>الورد والأذكار</h1><p>اختار مقدارًا صغيرًا تقدر تحافظ عليه، واقفل أي جزء مش مناسب لك. التسجيل محلي ومن غير تقييم أو لوم.</p></div>
+            <span class="status-pill soft" id="devotionTodayStatus">لسه مفيش شيء مطلوب اليوم</span>
+          </div>
+
+          <article class="panel devotion-control-panel">
+            <section class="devotion-control-section" aria-labelledby="quranSectionTitle">
+              <div class="devotion-section-head">
+                <div><h2 id="quranSectionTitle">ورد القرآن</h2><p>من آية واحدة لحد صفحة كاملة يوميًا.</p></div>
+                <label class="feature-switch" for="quranEnabled"><input type="checkbox" id="quranEnabled" /><span class="feature-switch-track"></span><span class="feature-switch-label">تشغيل الورد</span></label>
+              </div>
+              <div class="devotion-config" id="quranConfig">
+                <label><span>المقدار اليومي</span><select class="select-input" id="quranTarget"><option value="ayah-1">آية واحدة</option><option value="ayah-3">٣ آيات</option><option value="ayah-5">٥ آيات</option><option value="ayah-10">١٠ آيات</option><option value="page-quarter">ربع صفحة</option><option value="page-half">نصف صفحة</option><option value="page-1">صفحة كاملة</option></select></label>
+                <div id="quranTrackerContainer"></div>
+              </div>
+            </section>
+
+            <section class="devotion-control-section" aria-labelledby="adhkarSectionTitle">
+              <div class="devotion-section-head">
+                <div><h2 id="adhkarSectionTitle">الأذكار</h2><p>فعّل المجموعات التي تريد تذكيرًا بها فقط.</p></div>
+                <label class="feature-switch" for="adhkarEnabled"><input type="checkbox" id="adhkarEnabled" /><span class="feature-switch-track"></span><span class="feature-switch-label">تشغيل الأذكار</span></label>
+              </div>
+              <div class="adhkar-options" id="adhkarOptions">
+                <button type="button" class="adhkar-option" data-adhkar-group="morning"><strong>أذكار الصباح</strong><span>بعد الفجر</span></button>
+                <button type="button" class="adhkar-option" data-adhkar-group="evening"><strong>أذكار المساء</strong><span>بعد العصر</span></button>
+                <button type="button" class="adhkar-option" data-adhkar-group="afterPrayer"><strong>بعد الصلاة</strong><span>مراجعة واحدة لليوم</span></button>
+                <button type="button" class="adhkar-option" data-adhkar-group="sleep"><strong>أذكار النوم</strong><span>قبل ما تقفل يومك</span></button>
+              </div>
+              <div class="adhkar-today-checklist" id="adhkarTodayChecklist" aria-live="polite"></div>
+              <p class="devotion-inline-status" id="adhkarTodayStatus">الأذكار مقفولة حاليًا.</p>
+            </section>
+          </article>
+
+          <div class="devotion-dashboard">
+            <article class="panel weekly-worship-panel" aria-labelledby="weeklyWorshipTitle">
+              <div class="weekly-worship-head"><div><h2 id="weeklyWorshipTitle">أسبوع العبادة</h2><p>اليوم ينور أخضر لما تسجل الصلوات الخمس، والصيام أيضًا لو كان مخططًا.</p></div><span id="weeklyRangeLabel">هذا الأسبوع</span></div>
+              <div class="weekly-worship-days" id="weeklyWorshipDays" aria-live="polite"></div>
+              <div class="weekly-legend"><span><i class="legend-mark complete"></i>اليوم مكتمل</span><span><i class="legend-mark fasting"></i>فيه صيام مخطط</span><span><i class="legend-mark occasion"></i>فيه مناسبة</span></div>
+            </article>
+
+            <aside class="panel occasions-panel" aria-labelledby="occasionsTitle">
+              <div class="occasions-head"><div><h2 id="occasionsTitle">القادم في التقويم الهجري</h2><p>تنبيه قبل المناسبة بيوم وفي يومها.</p></div><button class="button ghost small-button" type="button" data-action="hijri-settings">ضبط الهجري</button></div>
+              <div class="occasions-list" id="occasionsList"></div>
+              <p class="occasion-note">المواعيد تقديرية حسب التقويم المحلي وتصحيحك الهجري؛ راجع إعلان بلدك للمناسبات الرسمية.</p>
+            </aside>
+          </div>
+        </section>
+
+        <!-- CHALLENGES VIEW -->
+        <section class="view" data-view-panel="challenges">
+          <div class="page-heading challenges-page-heading">
+            <div><h1>تحديات وِنس</h1><p>اختار عملًا واضحًا وكمّله على مهلك. مفيش نقاط ولا مقارنة؛ المؤشر بس يقولك عملت قد إيه وفاضلك قد إيه.</p></div>
+            <div class="challenge-heading-actions">
+              <label class="feature-switch" for="challengesEnabled"><input type="checkbox" id="challengesEnabled" /><span class="feature-switch-track"></span><span class="feature-switch-label">تشغيل التحديات</span></label>
+              <button class="button ghost" type="button" data-action="toggle-challenge-developer" aria-expanded="false" aria-controls="challengeDeveloperPanel">أدوات المطور</button>
+            </div>
+          </div>
+
+          <section class="challenge-disabled-state" id="challengeDisabledState" hidden>
+            <strong>التحديات مقفولة</strong><span>مفيش تحديات جديدة أو اختيار راندوم. تقدمك القديم محفوظ لحد ما تشغّلها تاني.</span>
+            <button class="button primary" type="button" data-action="enable-challenges">شغّل التحديات</button>
+          </section>
+
+          <div id="challengeWorkspace">
+            <section class="challenge-entry-panel" aria-labelledby="challengeEntryTitle">
+              <div class="challenge-entry-heading"><div><h2 id="challengeEntryTitle">اختار طريقتك</h2><p>ابدأ تحديًا من عندك، أو خلي وِنس يختار لك واحدًا من مصدر تحدده.</p></div><span id="challengeRandomStatus">الراندوم اليدوي جاهز</span></div>
+              <div class="challenge-entry-grid">
+                <form class="personal-challenge-form" id="personalChallengeForm">
+                  <div class="challenge-entry-copy"><h3>اعمل تحديك بنفسك</h3><p>اكتب المطلوب والهدف، وهيبدأ عندك فورًا كتحدٍ شخصي.</p></div>
+                  <label class="challenge-field challenge-field-title"><span>اسم التحدي</span><input class="text-input" name="title" maxlength="80" placeholder="مثلاً: ٥ صفحات هذا الأسبوع" required /></label>
+                  <label class="challenge-field"><span>النوع</span><select class="select-input" name="category"><option value="quran">قرآن</option><option value="fasting">صيام</option><option value="prayer">صلاة</option><option value="night-prayer">قيام ليل</option><option value="dhikr">ذكر</option><option value="good-deed">عمل خير</option><option value="custom">مخصص</option></select></label>
+                  <label class="challenge-field"><span>الهدف</span><input class="text-input" type="number" name="target" min="1" max="100000" value="1" required /></label>
+                  <label class="challenge-field"><span>الوحدة</span><input class="text-input" name="unit" maxlength="28" value="مرة" required /></label>
+                  <label class="challenge-field"><span>ينتهي يوم <small>(اختياري)</small></span><input class="text-input" type="date" name="endsAt" /></label>
+                  <button class="button secondary" type="submit">ابدأ تحديي</button>
+                </form>
+
+                <div class="random-challenge-control">
+                  <div class="challenge-entry-copy"><h3>فاجئني بتحدي راندوم</h3><p>الاختيار يتم محليًا من غير AI. تحديات المطور تأتي من الكتالوج، واقتراحات وِنس من قوالب داخل التطبيق.</p></div>
+                  <fieldset class="random-source-options" id="randomSourceOptions"><legend>مصدر التحدي</legend><label><input type="radio" name="randomSource" value="mixed" checked /><span><strong>الاثنين</strong><small>تحديات المطور + وِنس</small></span></label><label><input type="radio" name="randomSource" value="developer" /><span><strong>تحديات المطور</strong><small>اللي تنشرها أنت فقط</small></span></label><label><input type="radio" name="randomSource" value="app" /><span><strong>اقتراحات وِنس</strong><small>قوالب محلية داخل التطبيق</small></span></label></fieldset>
+                  <div class="random-challenge-actions"><button class="button primary" type="button" data-action="random-challenge">اختار لي دلوقتي</button><label class="random-auto-toggle" for="challengeRandomAuto"><input type="checkbox" id="challengeRandomAuto" /><span><strong>راندوم أسبوعي تلقائي</strong><small>تحدٍ واحد كل ٧ أيام لو مفيش راندوم نشط</small></span></label></div>
+                </div>
+              </div>
+            </section>
+
+            <section class="challenge-active-zone" aria-labelledby="activeChallengesTitle">
+              <div class="challenge-section-head"><div><h2 id="activeChallengesTitle">شغال عليها</h2><p>التحدي اللي انضمّيت له يظهر هنا لحد ما تخلصه أو تشيله.</p></div><span class="status-pill soft" id="activeChallengeCount">مفيش تحدي نشط</span></div>
+              <div class="challenge-list" id="activeChallengeList" aria-live="polite"></div>
+            </section>
+
+            <section class="challenge-catalog-zone" aria-labelledby="challengeCatalogTitle">
+              <div class="challenge-section-head"><div><h2 id="challengeCatalogTitle">متاح لك</h2><p>التحديات المنشورة على النسخة دي. انضم للي يناسبك وسيب الباقي.</p></div></div>
+              <div class="challenge-catalog" id="challengeCatalog" aria-live="polite"></div>
+            </section>
+          </div>
+
+          <section class="challenge-developer-panel" id="challengeDeveloperPanel" hidden aria-labelledby="challengeDeveloperTitle">
+            <div class="developer-panel-intro">
+              <div><h2 id="challengeDeveloperTitle">نشر تحدي من جهازك</h2><p>أنشئ التحدي واختبره محليًا، ثم صدّره كملف بيانات آمن تضيفه مع تحديث وِنس أو تستورده على جهاز آخر.</p></div>
+              <label class="button secondary small-button challenge-import-button">استيراد ملف<input type="file" id="challengeImportInput" accept="application/json,.json,.wenschallenge.json" /></label>
+            </div>
+            <form class="challenge-builder" id="challengeBuilderForm">
+              <label class="challenge-field challenge-field-wide"><span>اسم التحدي</span><input class="text-input" name="title" maxlength="80" placeholder="مثلاً: قراءة ٧ صفحات" required /></label>
+              <label class="challenge-field challenge-field-wide"><span>وصف قصير</span><input class="text-input" name="description" maxlength="180" placeholder="إيه المطلوب من المستخدم بالضبط؟" required /></label>
+              <label class="challenge-field"><span>النوع</span><select class="select-input" name="category"><option value="quran">قرآن</option><option value="fasting">صيام</option><option value="prayer">صلاة</option><option value="night-prayer">قيام ليل</option><option value="dhikr">ذكر</option><option value="good-deed">عمل خير</option><option value="custom">مخصص</option></select></label>
+              <label class="challenge-field"><span>الهدف</span><input class="text-input" type="number" name="target" min="1" max="100000" value="1" required /></label>
+              <label class="challenge-field"><span>وحدة القياس</span><input class="text-input" name="unit" maxlength="28" value="مرة" placeholder="صفحة، يوم، ركعة…" required /></label>
+              <label class="challenge-field"><span>الزيادة مع كل ضغطة</span><input class="text-input" type="number" name="step" min="1" max="100000" value="1" required /></label>
+              <label class="challenge-field"><span>يبدأ يوم <small>(اختياري)</small></span><input class="text-input" type="date" name="startsAt" /></label>
+              <label class="challenge-field"><span>ينتهي يوم <small>(اختياري)</small></span><input class="text-input" type="date" name="endsAt" /></label>
+              <div class="challenge-builder-note"><strong>من غير مدة؟</strong><span>سيب تاريخ الانتهاء فاضي؛ وقتها لن يظهر عدّاد انتهاء للمستخدم.</span></div>
+              <div class="challenge-builder-actions"><button class="button primary" type="submit">نشر محليًا</button><span id="challengeBuilderStatus" role="status">الملف الناتج بيانات فقط، ومفيهوش أي كود تنفيذي.</span></div>
+            </form>
+          </section>
+        </section>
+
+        <!-- MISSED & REVIEW VIEW -->
+        <section class="view" data-view-panel="missed">
+          <div class="page-heading missed-page-heading">
+            <div><h1>الفائت والمعلّق</h1><p>مكان واحد تراجع منه الصلاة والصيام. وِنس يسألك عن الحالة، وإنت وحدك اللي تحدد إنها فاتت أو تمت.</p></div>
+          </div>
+
+          <div class="review-summary" aria-label="ملخص المراجعة">
+            <div><strong id="missedPrayerSummary">٠</strong><span>صلوات محتاجة ردك</span></div>
+            <div><strong id="missedFastingSummary">٠</strong><span>أيام صيام محتاجة ردك</span></div>
+            <p>مفيش نقاط ولا لوم. القائمة موجودة علشان ما تنساش وبس.</p>
+          </div>
+
+          <article class="panel prayer-backlog-panel" id="prayerBacklogPanel" tabindex="-1" aria-labelledby="prayerBacklogTitle">
+            <div class="prayer-backlog-head">
+              <div>
+                <h2 id="prayerBacklogTitle">الصلوات الفائتة والمحتاجة تأكيد</h2>
+                <p>بعد انتهاء وقت الفرض يظهر هنا كـ«غير مؤكدة». العشاء تظهر بعد منتصف الليل للمراجعة، مع إن وقتها يظل ممتدًا للفجر.</p>
+              </div>
+              <div class="prayer-backlog-status">
+                <span class="status-pill warm" id="prayerBacklogCount">مفيش صلوات معلّقة</span>
+                <label class="auto-backlog-toggle" for="autoPrayerBacklog">
+                  <input type="checkbox" id="autoPrayerBacklog" />
+                  <span>مراجعة تلقائية</span>
+                </label>
+              </div>
+            </div>
+            <form class="prayer-backlog-add" id="prayerBacklogForm">
+              <label><span>الصلاة</span><select class="select-input" id="backlogPrayerName" name="prayerName" required><option value="الفجر">الفجر</option><option value="الظهر">الظهر</option><option value="العصر">العصر</option><option value="المغرب">المغرب</option><option value="العشاء">العشاء</option></select></label>
+              <label><span>تاريخها</span><input class="text-input" type="date" id="backlogPrayerDate" name="prayerDate" required /></label>
+              <button class="button secondary" type="submit">سجّلها كفائتة</button>
+            </form>
+            <div class="prayer-backlog-list" id="prayerBacklogList" aria-live="polite"><p class="prayer-backlog-empty">مفيش صلوات محتاجة مراجعة دلوقتي.</p></div>
+            <p class="prayer-backlog-note" id="prayerBacklogNote">وِنس لا يفترض إن الصلاة فاتتك؛ لازم تختار «فاتتني» بنفسك.</p>
+          </article>
+
+          <article class="panel prayer-backlog-panel fasting-backlog-panel" id="fastingBacklogPanel" tabindex="-1" aria-labelledby="fastingBacklogTitle">
+            <div class="prayer-backlog-head">
+              <div><h2 id="fastingBacklogTitle">أيام الصيام الفائتة والمحتاجة تأكيد</h2><p>أضف يومًا تعرف إنه عليك، أو راجع الأيام المخططة التي انتهت من غير تسجيل حالتها.</p></div>
+              <div class="prayer-backlog-status"><span class="status-pill warm" id="fastingBacklogCount">مفيش أيام معلّقة</span><label class="auto-backlog-toggle" for="autoFastingBacklog"><input type="checkbox" id="autoFastingBacklog" /><span>مراجعة المخطط</span></label></div>
+            </div>
+            <form class="prayer-backlog-add fasting-backlog-add" id="fastingBacklogForm">
+              <label><span>نوع الصيام</span><select class="select-input" name="fastingType" required><option value="قضاء رمضان">قضاء رمضان</option><option value="رمضان">يوم من رمضان</option><option value="نذر">نذر</option><option value="صيام مخطط">صيام مخطط</option><option value="آخر">آخر</option></select></label>
+              <label><span>تاريخ اليوم</span><input class="text-input" type="date" id="backlogFastingDate" name="fastingDate" required /></label>
+              <button class="button secondary" type="submit">سجّله كفائت</button>
+            </form>
+            <div class="prayer-backlog-list" id="fastingBacklogList" aria-live="polite"><p class="prayer-backlog-empty">مفيش أيام صيام محتاجة مراجعة دلوقتي.</p></div>
+            <p class="prayer-backlog-note" id="fastingBacklogNote">المراجعة التلقائية تخص رمضان والأيام التي خططت لها بنفسك فقط، ولا تعتبر الصيام التطوعي دَينًا عليك.</p>
+          </article>
+        </section>
+
+        <!-- PROJECTS VIEW (مشاريعي) -->
+        <section class="view" data-view-panel="projects">
+          <div class="page-heading"><div><span class="eyebrow"><span class="eyebrow-line"></span>خد فكرة واحدة</span><h1>مشاريعي</h1><p>مشروع حالي، خطوة صغيرة، وورقة ترجعك للسياق وقت ما تحتاج.</p></div><button class="button primary" data-action="new-project">＋ مشروع جديد</button></div>
+          <div class="project-layout">
+            <div class="project-main">
+              <div class="project-filter" id="projectFilterGroup">
+                <button class="filter active" data-filter="all">الكل <span id="filterCountAll">٠</span></button>
+                <button class="filter" data-filter="in-progress">قيد التنفيذ <span id="filterCountInProgress">٠</span></button>
+                <button class="filter" data-filter="ideas">أفكار <span id="filterCountIdeas">٠</span></button>
+                <button class="filter" data-filter="completed">مكتمل <span id="filterCountCompleted">٠</span></button>
+              </div>
+              <div class="project-list" id="projectList"></div>
+            </div>
+            <aside class="panel return-card">
+              <span class="return-icon">↩</span>
+              <span class="section-label">رجّعني للمشروع</span>
+              <h2 id="returnCardHeading">مش فاكر كنت واقف فين؟</h2>
+              <p id="returnCardTaskText">اختر مشروعًا لتبدأ خطوته التالية.</p>
+              <button class="button secondary full-button" data-action="focus">ابدأ من هنا</button>
+            </aside>
+          </div>
+        </section>
+
+        <!-- STUDIO VIEW (معمل الإبداع) -->
+        <section class="view" data-view-panel="studio">
+          <div class="page-heading">
+            <div><span class="eyebrow"><span class="eyebrow-line"></span>من الفكرة للحركة</span><h1>معمل الإبداع</h1><p>أدوات وقوالب تساعدك تنتج بنفسك، من غير AI ولا إجابات جاهزة.</p></div>
+            <div class="head-actions">
+              <button class="button secondary" data-action="open-vault">📂 مسوداتي المحفوظة (<span id="vaultItemsCount">0</span>)</button>
+              <button class="button primary" data-action="creative-session">ابدأ جلسة أفكار</button>
+            </div>
+          </div>
+          <div class="studio-grid">
+            <article class="panel studio-feature">
+              <div class="feature-art"><span class="orbit orbit-a"></span><span class="orbit orbit-b"></span><span class="feature-star">✦</span><span class="feature-paper">HOOK<br /><strong>01</strong></span></div>
+              <div class="feature-copy"><span class="section-label">أداة اليوم</span><h2>عجلة الزوايا</h2><p>اختار زاوية واحدة وابني عليها إعلانك بدل ما تلف حوالين الفكرة.</p><button class="button secondary" data-action="spin-angle">لف العجلة <span>↗</span></button></div>
+            </article>
+            <article class="panel studio-tool">
+              <span class="tool-icon">▤</span><h2>Campaign Brief</h2><p>املأ الهيكل الأساسي للحملة في ٦ أسئلة قصيرة.</p><button class="mini-link" data-action="brief">افتح القالب <span>←</span></button>
+            </article>
+            <article class="panel studio-tool warm-tool">
+              <span class="tool-icon">◈</span><h2>Creative Matrix</h2><p>اخلط الجمهور، المشكلة، الزاوية، والصيغة.</p><button class="mini-link" data-action="matrix">ابنِ مصفوفة <span>←</span></button>
+            </article>
+            <article class="panel studio-tool dark-tool">
+              <span class="tool-icon">✎</span><h2>Storyboard</h2><p>حوّل الفكرة إلى ٣ لقطات تقدر تنفذها.</p><button class="mini-link" data-action="storyboard">ابدأ لوحة <span>←</span></button>
+            </article>
+            <article class="panel studio-tool metric-tool">
+              <span class="tool-icon">%</span><h2>Campaign Metrics</h2><p>احسب أداء الحملة من أرقامك أنت، بدون تخمين.</p><button class="mini-link" data-action="metrics">افتح الحاسبة <span>←</span></button>
+            </article>
+          </div>
+          <div class="panel prompt-card">
+            <div><span class="section-label">تحدي صغير</span><h2 id="creativePrompt">اكتب ٥ Hooks سيئة جدًا… وبعدين اختار واحدة تصلحها.</h2></div>
+            <button class="round-add" data-action="new-prompt" aria-label="تحدي جديد">↻</button>
+          </div>
+        </section>
+
+        <div class="companion-popup-layer" id="companionPopupLayer" aria-live="polite"></div>
+        <div class="toast-stack" id="toastStack" aria-live="polite" aria-atomic="false"></div>
+      </main>
+    </div>
+
+    <!-- MODALS -->
+    <dialog class="modal" id="quickIdeaModal">
+      <form method="dialog" class="modal-card" id="ideaForm">
+        <button class="modal-close" value="cancel" aria-label="إغلاق">×</button>
+        <span class="eyebrow"><span class="eyebrow-line"></span>التقاط سريع</span>
+        <h2>حط الفكرة هنا قبل ما تطير</h2>
+        <p>مش لازم تكون مرتبة. وِنس هيفضلها في الصندوق لحد ما يحين وقتها.</p>
+        <label class="field-label" for="ideaTitle">الفكرة</label>
+        <input id="ideaTitle" name="title" class="text-input" placeholder="مثلاً: إعلان يبدأ من النتيجة مش المنتج" autocomplete="off" required />
+        <label class="field-label" for="ideaTag">علامة صغيرة <span>(اختياري)</span></label>
+        <input id="ideaTag" name="tag" class="text-input" placeholder="ماركتنج، منتج، محتوى…" autocomplete="off" />
+        <div class="modal-actions">
+          <button class="button ghost" value="cancel">مش دلوقتي</button>
+          <button class="button primary" value="default">احفظ الفكرة</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="modal" id="settingsModal">
+      <form method="dialog" class="modal-card settings-modal" id="settingsForm">
+        <button class="modal-close" value="cancel" aria-label="إغلاق">×</button>
+        <span class="eyebrow"><span class="eyebrow-line"></span>إعدادات وِنس</span>
+        <h2>خليه على إيقاعك</h2>
+        <p>كل الاختيارات دي محلية وتقدر تغيّرها في أي وقت.</p>
+        <div class="settings-block">
+          <span class="field-label">المكان وطريقة الحساب</span>
+          <div class="settings-select-row">
+            <div><strong id="settingsLocationName">القاهرة، مصر</strong><small id="settingsLocationCoordinates">30.0444° · 31.2357°</small></div>
+            <button class="button secondary small-button" type="button" data-action="location-device">استخدم موقع الجهاز</button>
+          </div>
+          <div class="location-search-row">
+            <input id="locationSearchInput" class="text-input" type="search" maxlength="100" placeholder="ابحث عن مدينة: دبي، لندن، تورنتو…" autocomplete="off" />
+            <button class="button ghost small-button" type="button" data-action="location-search">بحث</button>
+          </div>
+          <div class="location-search-result">
+            <select id="locationSearchResults" class="text-input" aria-label="نتائج البحث عن المدينة" hidden></select>
+            <button class="button secondary small-button" type="button" data-action="location-apply" hidden>استخدم المدينة</button>
+          </div>
+          <small id="locationSearchStatus" class="field-help" aria-live="polite">الموقع يُرسل لخدمة الطقس فقط عند التحديث أو البحث.</small>
+          <div class="coords-grid">
+            <label><span>خط العرض</span><input id="latitudeInput" class="text-input" type="number" step="0.0001" /></label>
+            <label><span>خط الطول</span><input id="longitudeInput" class="text-input" type="number" step="0.0001" /></label>
+          </div>
+          <small id="timezoneHint" class="field-help"></small>
+          <div class="coords-grid">
+            <label><span>تصحيح اليوم الهجري</span><input id="hijriOffset" class="text-input" type="number" step="1" /></label>
+            <small class="field-help">موجب لتقديم التقويم، وسالب لتأخيره.</small>
+          </div>
+          <label class="field-label" for="calcMethod" style="margin-top:12px">طريقة حساب المواقيت</label>
+          <select class="text-input" id="calcMethod">
+            <option value="egypt">الهيئة المصرية العامة للمساحة</option>
+            <option value="mwl">رابطة العالم الإسلامي (MWL)</option>
+            <option value="ummalqura">أم القرى (مكة المكرمة)</option>
+          </select>
+          <label class="toggle-row compact-toggle"><span>اختيار طريقة الحساب تلقائيًا حسب البلد</span><input type="checkbox" checked data-setting="calcMethodAuto" /><span class="toggle"></span></label>
+          <div class="coords-grid offsets-grid" style="margin-top:8px">
+            <label><span>تعديل الفجر (دقيقة)</span><input id="fajrOffset" class="text-input" type="number" step="1" /></label>
+            <label><span>تعديل المغرب (دقيقة)</span><input id="maghribOffset" class="text-input" type="number" step="1" /></label>
+            <label><span>تعديل العشاء (دقيقة)</span><input id="ishaOffset" class="text-input" type="number" step="1" /></label>
+          </div>
+        </div>
+
+        <div class="settings-block">
+          <span class="field-label">طابع الألوان والمظهر</span>
+          <small style="display:block; color:var(--ink-faint); font-size:11px; margin-top:-4px; margin-bottom:8px;">لوحة ألوان واجهة البرنامج وأزرار التفاعل</small>
+          <div class="theme-accent-row" id="themeAccentRow">
+            <button type="button" class="theme-pill active" data-theme-accent="default">وردي وِنس</button>
+            <button type="button" class="theme-pill" data-theme-accent="amber">عنبر دافئ</button>
+            <button type="button" class="theme-pill" data-theme-accent="olive">زيتوني هادئ</button>
+            <button type="button" class="theme-pill" data-theme-accent="indigo">نيلي ليلي</button>
+            <button type="button" class="theme-pill" data-theme-accent="midnight">أسود ملكي</button>
+          </div>
+        </div>
+
+        <div class="settings-block">
+          <span class="field-label">شخصية الرفيق العائم (Avatar)</span>
+          <small style="display:block; color:var(--ink-faint); font-size:11px; margin-top:-4px; margin-bottom:8px;">هيئة وشكل الرفيق (مستقل تمامًا عن طابع ألوان الواجهة)</small>
+          <div class="settings-avatar-preview-box">
+            <div class="settings-avatar-stage">
+              <div class="avatar-preview-figure avatar-sprout" id="settingsAvatarPreview">
+                <span class="avatar-preview-shadow"></span>
+                <span class="avatar-preview-aura"></span>
+                <span class="avatar-preview-body">
+                  <span class="avatar-preview-leaf"></span>
+                  <span class="avatar-preview-face">
+                    <i class="eye eye-right"></i>
+                    <i class="eye eye-left"></i>
+                    <b class="smile"></b>
+                  </span>
+                  <span class="avatar-preview-mark">و</span>
+                </span>
+              </div>
+            </div>
+            <div class="settings-avatar-info">
+              <div class="avatar-info-header">
+                <strong id="settingsAvatarName">🌱 وِنس الأصلي</strong>
+                <span class="avatar-status-badge" id="settingsPetStatusBadge">ظاهر على سطح المكتب</span>
+              </div>
+              <p id="settingsAvatarDesc">الرفيق الكلاسيكي الهادئ والمشجع في كل خطواتك اليومية.</p>
+              <button type="button" class="button ghost small-button" id="settingsQuickPetVisibleBtn" style="display:none; margin-top:6px;">إظهار الرفيق على سطح المكتب الآن ↗</button>
+            </div>
+          </div>
+          <div class="theme-accent-row" id="petAvatarRow">
+            <button type="button" class="theme-pill active" data-pet-avatar="orb">✦ الرفيق التجريدي</button>
+            <button type="button" class="theme-pill" data-pet-avatar="robot">🤖 الرفيق الروبوتي</button>
+          </div>
+        </div>
+
+        <div class="settings-block">
+          <span class="field-label">قنوات التنبيه والرفيق</span>
+          <label class="toggle-row"><span>تشغيل تلقائي مع Windows</span><input type="checkbox" id="autostartToggle" /><span class="toggle"></span></label>
+          <label class="toggle-row"><span>نغمة صوتية هادئة (محليًا عند الأذان وانتهاء الجلسة)</span><input type="checkbox" checked data-setting="soundChime" /><span class="toggle"></span></label>
+          <label class="toggle-row"><span>الرفيق العائم دائمًا فوق سطح المكتب</span><input type="checkbox" checked data-setting="petVisible" /><span class="toggle"></span></label>
+          <label class="toggle-row"><span>فقاعات كلام الرفيق</span><input type="checkbox" checked data-setting="bubbles" /><span class="toggle"></span></label>
+          <label class="toggle-row"><span>ويدجت الصلاة في نص الشاشة</span><input type="checkbox" data-overlay-widget /><span class="toggle"></span></label>
+          <div class="overlay-widget-settings">
+            <label><span>قوم للوضوء قبل الصلاة بـ</span><div class="number-suffix"><input id="wuduLeadMinutes" class="text-input" type="number" min="1" max="90" step="1" /><small>دقيقة</small></div></label>
+            <button class="button ghost full-button" type="button" data-action="demo-prayer-overlay">جرّب ويدجت الصلاة</button>
+          </div>
+          <label class="toggle-row"><span>الحركات الاحتفالية والبوب أب التجريبي</span><input type="checkbox" data-setting="livelyPopups" /><span class="toggle"></span></label>
+          <label class="toggle-row"><span>الوضع الهادئ افتراضيًا</span><input type="checkbox" data-setting="quietDefault" /><span class="toggle"></span></label>
+          <label class="toggle-row"><span>الوضع الصارم أوفلاين</span><input type="checkbox" data-setting="strictOffline" /><span class="toggle"></span></label>
+          <label class="toggle-row"><span>تحديث الطقس تلقائيًا كل ٣٠ دقيقة</span><input type="checkbox" data-setting="weatherAuto" /><span class="toggle"></span></label>
+          <button class="button secondary full-button settings-demo-button" type="button" data-action="demo-popup">جرّب البوب أب والحركة</button>
+        </div>
+
+        <div class="connector-callout">
+          <div class="connector-lock">⌁</div>
+          <div><strong>الموصلات الاختيارية</strong><p>Codex وAntigravity يفضلوا مقفولين. تقدر تفعّلهم لاحقًا بموافقة صريحة لكل طلب.</p></div>
+          <button class="button ghost small-button" type="button" data-action="connectors">إدارة</button>
+        </div>
+        <div class="modal-actions"><button class="button primary" value="default">حفظ الإعدادات</button></div>
+      </form>
+    </dialog>
+
+    <dialog class="modal" id="focusModal">
+      <form method="dialog" class="modal-card focus-modal">
+        <button class="modal-close" value="cancel" aria-label="إغلاق">×</button>
+        <span class="eyebrow"><span class="eyebrow-line"></span>مساحة واحدة</span>
+        <h2>جلسة تركيز هادئة</h2>
+        <p>اختار مدة صغيرة. عند دخول الصلاة، وِنس يوقف الجلسة لو فعلت الخيار.</p>
+        <div class="duration-options">
+          <button class="duration active" type="button" data-duration="15">١٥ دقيقة</button>
+          <button class="duration" type="button" data-duration="25">٢٥ دقيقة</button>
+          <button class="duration" type="button" data-duration="45">٤٥ دقيقة</button>
+        </div>
+        <div class="focus-preview">
+          <span class="focus-orb"></span>
+          <strong id="focusDurationLabel">١٥:٠٠</strong>
+          <span id="focusProjectTitleLabel">جلسة عمل حرة</span>
+        </div>
+        <div class="modal-actions">
+          <button class="button ghost" value="cancel">بعد شوية</button>
+          <button class="button primary" value="default" data-action="start-focus">ابدأ الآن</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="modal" id="newProjectModal">
+      <form method="dialog" class="modal-card input-modal" id="newProjectForm">
+        <button class="modal-close" value="cancel" aria-label="إغلاق">×</button>
+        <span class="eyebrow"><span class="eyebrow-line"></span>مشروع جديد</span>
+        <h2>فكرة لها مكان</h2>
+        <p>اكتب الاسم والخطوة الحالية، ونضيف التفاصيل بعدين.</p>
+        <label class="field-label" for="newProjectInput">اسم المشروع</label>
+        <input id="newProjectInput" class="text-input" placeholder="مثلاً: حملة الصيف" autocomplete="off" required />
+        <label class="field-label" for="newProjectTask">الخطوة الحالية <span>(اختياري)</span></label>
+        <input id="newProjectTask" class="text-input" placeholder="مثلاً: كتابة ٣ زوايا للحملة" autocomplete="off" />
+        <div class="modal-actions">
+          <button class="button ghost" value="cancel">مش دلوقتي</button>
+          <button class="button primary" value="default">حفظ</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="modal" id="fastDateInputModal">
+      <form method="dialog" class="modal-card input-modal">
+        <button class="modal-close" value="cancel" aria-label="إغلاق">×</button>
+        <span class="eyebrow"><span class="eyebrow-line"></span>صيام مخصص وقضاء</span>
+        <h2>إضافة يوم صيام</h2>
+        <p>سجّل موعد ونوع الصيام؛ ليُدرج في جدولك وتنبيهاتك ومنبه السحور المحلي.</p>
+        <div class="custom-fast-fields">
+          <label class="field-label" for="fastCustomDatePicker">تاريخ يوم الصيام</label>
+          <input type="date" id="fastCustomDatePicker" class="text-input" required />
+          <label class="field-label" for="fastCustomTypeSelect">نوع الصيام</label>
+          <select id="fastCustomTypeSelect" class="text-input">
+            <option value="قضاء">صيام قضاء</option>
+            <option value="تطوع">صيام تطوع</option>
+            <option value="كفارة أو نذر">كفارة أو نذر</option>
+            <option value="مناسبة خاصة">مناسبة خاصة</option>
+          </select>
+          <label class="field-label" for="fastCustomTitleInput">ملاحظة أو تفصيل (اختياري)</label>
+          <input id="fastCustomTitleInput" class="text-input" placeholder="مثلاً: قضاء رمضان أو نذر أو يوم عرفة" autocomplete="off" />
+          <input id="fastDateInput" type="hidden" />
+        </div>
+        <div class="modal-actions">
+          <button class="button ghost" value="cancel">إلغاء</button>
+          <button class="button primary" value="default">حفظ في جدول الصيام</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="modal" id="contextUpdateModal">
+      <form method="dialog" class="modal-card context-update-modal" id="contextUpdateForm">
+        <button class="modal-close" value="cancel" aria-label="إغلاق">×</button>
+        <span class="eyebrow"><span class="eyebrow-line"></span>لوحة الحالة المحلية</span>
+        <h2>حدّث الجو والاقتصاد</h2>
+        <p>استخدم الإدخال اليدوي كبديل للطقس التلقائي، وسجّل مؤشرات الاقتصاد التي تراجعها بنفسك.</p>
+        <div class="context-form-section">
+          <div class="context-form-title"><span class="context-icon weather-icon" aria-hidden="true">◌</span><div><strong>الجو</strong><small>درجة الحرارة والرطوبة والحالة الحالية</small></div></div>
+          <div class="tool-form-grid">
+            <label><span>درجة الحرارة °م</span><input class="text-input" name="temperatureC" type="number" min="-50" max="60" step="0.1" placeholder="مثلاً: ٣٢" /></label>
+            <label><span>الرطوبة %</span><input class="text-input" name="humidityPct" type="number" min="0" max="100" step="1" placeholder="مثلاً: ٦٠" /></label>
+            <label class="wide"><span>الحالة الجوية</span><select class="text-input" name="weatherCondition"><option value="">غير محددة</option><option value="صحو">صحو</option><option value="غائم جزئيًا">غائم جزئيًا</option><option value="غائم">غائم</option><option value="مطر">مطر</option><option value="رياح">رياح</option><option value="أتربة">أتربة</option><option value="ضباب">ضباب</option></select></label>
+          </div>
+        </div>
+        <div class="context-form-section">
+          <div class="context-form-title"><span class="context-icon economy-icon" aria-hidden="true">↕</span><div><strong>الاقتصاد</strong><small>لقطة للمقارنة، وليست نصيحة مالية</small></div></div>
+          <div class="tool-form-grid">
+            <label><span>الدولار مقابل الجنيه</span><input class="text-input" name="usdEgp" type="number" min="0" step="0.01" placeholder="آخر سعر عندك" /></label>
+            <label><span>جرام ذهب ٢١</span><input class="text-input" name="gold21Egp" type="number" min="0" step="0.01" placeholder="بالجنيه" /></label>
+            <label><span>التضخم %</span><input class="text-input" name="inflationPct" type="number" min="0" step="0.1" placeholder="آخر نسبة عندك" /></label>
+            <label><span>حالة السوق</span><select class="text-input" name="marketStatus"><option value="">غير محددة</option><option value="مستقر">مستقر</option><option value="أسعاره بتزيد">أسعاره بتزيد</option><option value="أسعاره بتهدى">أسعاره بتهدى</option><option value="متقلب">متقلب</option></select></label>
+            <label class="wide"><span>ملاحظة قصيرة</span><input class="text-input" name="economyNote" maxlength="120" placeholder="مثلاً: الأسعار متغيرة بسرعة النهارده" /></label>
+          </div>
+        </div>
+        <div class="connector-safety context-local-note"><span>▣</span><span>القيم اليدوية محفوظة محليًا. الطقس التلقائي يرسل الإحداثيات فقط إلى Open-Meteo عند التحديث.</span></div>
+        <div class="modal-actions"><button class="button ghost" value="cancel">إلغاء</button><button class="button primary" value="default">احفظ اللقطة</button></div>
+      </form>
+    </dialog>
+
+    <!-- CREATIVE VAULT MODAL (مسودات ومحفوظات معمل الإبداع) -->
+    <dialog class="modal" id="studioVaultModal">
+      <form method="dialog" class="modal-card vault-modal">
+        <button class="modal-close" value="cancel" aria-label="إغلاق">×</button>
+        <span class="eyebrow"><span class="eyebrow-line"></span>سجل الإبداع المحلي</span>
+        <h2>مسوداتك وأرقامك المحفوظة</h2>
+        <p>كل الـ Briefs والمصفوفات واللوحات والحسابات محفوظة على جهازك وتقدر تنسخها أو تحذفها.</p>
+        <div class="vault-tabs">
+          <button type="button" class="vault-tab active" data-vault-tab="briefs">Briefs (<span id="vaultCountBriefs">0</span>)</button>
+          <button type="button" class="vault-tab" data-vault-tab="matrices">Matrices (<span id="vaultCountMatrices">0</span>)</button>
+          <button type="button" class="vault-tab" data-vault-tab="storyboards">Storyboards (<span id="vaultCountStoryboards">0</span>)</button>
+          <button type="button" class="vault-tab" data-vault-tab="metrics">Metrics (<span id="vaultCountMetrics">0</span>)</button>
+        </div>
+        <div class="vault-content" id="vaultContentList">
+          <!-- Vault items rendered dynamically -->
+        </div>
+        <div class="modal-actions"><button class="button primary" value="default">إغلاق</button></div>
+      </form>
+    </dialog>
+
+    <!-- EDIT PROJECT MODAL (تعديل تفاصيل المشروع) -->
+    <dialog class="modal" id="editProjectModal">
+      <form method="dialog" class="modal-card input-modal" id="editProjectForm">
+        <button class="modal-close" value="cancel" aria-label="إغلاق">×</button>
+        <span class="eyebrow"><span class="eyebrow-line"></span>تعديل المشروع</span>
+        <h2>تعديل بيانات المشروع</h2>
+        <input type="hidden" id="editProjectId" />
+        <label class="field-label" for="editProjectTitle">اسم المشروع</label>
+        <input id="editProjectTitle" class="text-input" required autocomplete="off" />
+        <label class="field-label" for="editProjectDesc">الوصف أو الملاحظة</label>
+        <input id="editProjectDesc" class="text-input" autocomplete="off" />
+        <label class="field-label" for="editProjectTask">الخطوة الحالية</label>
+        <input id="editProjectTask" class="text-input" autocomplete="off" />
+        <div class="coords-grid">
+          <label><span>الحالة</span>
+            <select class="select-input" id="editProjectStatus">
+              <option value="قيد التنفيذ">قيد التنفيذ</option>
+              <option value="فكرة">فكرة</option>
+              <option value="مكتمل">مكتمل</option>
+            </select>
+          </label>
+          <label><span>نسبة الإنجاز: <strong id="editProjectProgressVal">50%</strong></span>
+            <input type="range" min="0" max="100" id="editProjectProgress" class="range-slider" />
+          </label>
+        </div>
+        <div class="modal-actions modal-actions-split">
+          <button class="button ghost danger-button" type="button" id="deleteProjectBtn">حذف المشروع</button>
+          <div class="right-buttons">
+            <button class="button ghost" value="cancel">إلغاء</button>
+            <button class="button primary" value="default">حفظ التعديل</button>
+          </div>
+        </div>
+      </form>
+    </dialog>
+
+    <!-- ALL IDEAS MODAL (لوحة الأفكار الكاملة) -->
+    <dialog class="modal" id="allIdeasModal">
+      <form method="dialog" class="modal-card vault-modal" id="allIdeasForm">
+        <button class="modal-close" value="cancel" aria-label="إغلاق">×</button>
+        <span class="eyebrow"><span class="eyebrow-line"></span>صندوق الأفكار</span>
+        <h2>كل الأفكار المسجلة</h2>
+        <p>الأفكار لا تضيع ولا تضغط عليك. تقدر تحوّل أي فكرة لمشروع لما ييجي وقتها.</p>
+        <div class="ideas-modal-toolbar">
+          <input type="search" class="text-input" id="allIdeasSearchInput" placeholder="ابحث في الأفكار…" autocomplete="off" />
+          <button type="button" class="button secondary small-button" data-action="quick-idea">＋ أضف فكرة</button>
+        </div>
+        <div class="all-ideas-list" id="allIdeasList">
+          <!-- All ideas rendered dynamically -->
+        </div>
+        <div class="modal-actions"><button class="button primary" value="default">إغلاق</button></div>
+      </form>
+    </dialog>
+
+    <!-- ATHKAR MODAL (أذكار وخواطر خفيفة) -->
+    <dialog class="modal" id="athkarModal">
+      <form method="dialog" class="modal-card vault-modal" id="athkarForm">
+        <button class="modal-close" value="cancel" aria-label="إغلاق">×</button>
+        <span class="eyebrow"><span class="eyebrow-line"></span>سكينة وطمأنينة</span>
+        <h2>أذكار وخواطر خفيفة</h2>
+        <p>أذكار مأثورة بدون ضغط عدادات أو تنافس. اقرأ ما تيسر لك.</p>
+        <div class="vault-tabs athkar-tabs">
+          <button type="button" class="vault-tab active" data-athkar-tab="morning">أذكار الصباح ☀</button>
+          <button type="button" class="vault-tab" data-athkar-tab="evening">أذكار المساء ☾</button>
+          <button type="button" class="vault-tab" data-athkar-tab="afterPrayer">بعد الصلاة ✦</button>
+        </div>
+        <div class="athkar-content-list" id="athkarContentList">
+          <!-- Athkar cards rendered dynamically -->
+        </div>
+        <div class="modal-actions"><button class="button primary" value="default">تم</button></div>
+      </form>
+    </dialog>
+
+    <script src="shared.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>

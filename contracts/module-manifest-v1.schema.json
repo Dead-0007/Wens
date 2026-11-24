@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wens.local/contracts/module-manifest-v1.schema.json",
+  "title": "ModuleManifest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["manifestVersion", "id", "name", "version", "publisher", "minAppVersion", "moduleTypes", "permissions", "entryData", "assets", "locales", "contentHash"],
+  "properties": {
+    "manifestVersion": { "const": 1 },
+    "id": { "type": "string", "pattern": "^[a-z0-9]+(?:[._-][a-z0-9]+)+$", "maxLength": 120 },
+    "name": { "type": "string", "minLength": 1, "maxLength": 80 },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+(?:[-+][0-9A-Za-z.-]+)?$" },
+    "publisher": { "type": "string", "minLength": 1, "maxLength": 120 },
+    "minAppVersion": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+" },
+    "moduleTypes": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "enum": ["marketing_template", "project_template", "fasting_rule", "reminder_content", "personality_lines", "theme", "icon_pack", "creative_template"] } },
+    "permissions": { "type": "array", "uniqueItems": true, "items": { "type": "string", "enum": ["templates:read", "themes:apply", "reminders:register", "personality:extend"] } },
+    "entryData": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/safePath" } },
+    "assets": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/safePath" } },
+    "locales": { "type": "array", "uniqueItems": true, "items": { "type": "string", "pattern": "^[a-z]{2}(?:-[A-Z]{2})?$" } },
+    "contentHash": { "type": "string", "pattern": "^[a-fA-F0-9]{64}$" },
+    "signature": { "type": ["string", "null"] }
+  },
+  "$defs": { "safePath": { "type": "string", "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*[\\\\:]).+$" } }
+}
+

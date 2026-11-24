@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wens.local/contracts/sync-envelope-v1.schema.json",
+  "title": "SyncEnvelope v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "envelopeId", "senderDeviceId", "changes", "sentAt"],
+  "properties": {
+    "version": { "const": 1 },
+    "envelopeId": { "type": "string", "format": "uuid" },
+    "senderDeviceId": { "type": "string", "format": "uuid" },
+    "cursor": { "type": ["string", "null"] },
+    "sentAt": { "type": "string", "format": "date-time" },
+    "changes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "entityType", "entityId", "operation", "deviceId", "hlc", "revision", "createdAt"],
+        "properties": {
+          "id": { "type": "string", "format": "uuid" }, "entityType": { "type": "string" },
+          "entityId": { "type": "string" }, "operation": { "enum": ["upsert", "delete"] },
+          "deviceId": { "type": "string", "format": "uuid" }, "hlc": { "type": "string" },
+          "revision": { "type": "integer", "minimum": 1 }, "payload": {},
+          "createdAt": { "type": "string", "format": "date-time" }
+        }
+      }
+    }
+  }
+}

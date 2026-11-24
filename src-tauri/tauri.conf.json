@@ -1,0 +1,53 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "وِنس",
+  "version": "1.0.0",
+  "identifier": "com.wens.offline",
+  "build": {
+    "beforeBuildCommand": "npm run desktop:sync",
+    "devUrl": "http://127.0.0.1:4179",
+    "frontendDist": "../dist-vnext"
+  },
+  "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "وِنس — خليك قريب، وكمّل اللي بدأته",
+        "url": "index.html",
+        "width": 1220,
+        "height": 820,
+        "minWidth": 760,
+        "minHeight": 600,
+        "resizable": true,
+        "fullscreen": false,
+        "visible": false
+      }
+    ],
+    "withGlobalTauri": true,
+    "security": {
+      "csp": "default-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; script-src 'self'; img-src 'self' data:; connect-src 'self'; media-src 'self' https://*.qurango.net https://*.radiojar.com https://*.mp3quran.net data: blob:"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "icon": ["icons/icon.ico", "icons/icon.png"],
+    "targets": ["nsis"],
+    "resources": {
+      "../LICENSE": "LICENSE",
+      "../THIRD_PARTY_NOTICES.md": "THIRD_PARTY_NOTICES.md",
+      "../fonts/OFL.txt": "fonts/OFL.txt"
+    },
+    "windows": {
+      "allowDowngrades": false,
+      "webviewInstallMode": {
+        "type": "offlineInstaller"
+      },
+      "nsis": {
+        "languages": ["Arabic", "English"],
+        "displayLanguageSelector": false,
+        "installMode": "currentUser",
+        "installerIcon": "icons/icon.ico"
+      }
+    }
+  }
+}

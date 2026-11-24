@@ -1,0 +1,34 @@
+# Dependencies
+node_modules/
+apps/*/node_modules/
+
+# Build outputs & release artifacts
+target/
+dist/
+dist-vnext/
+output/
+release/
+*.tsbuildinfo
+
+# Local SDKs, agent/tool caches & generated mobile shell
+.android-sdk/
+.android-download/
+.playwright-cli/
+.freebuff/
+.impeccable/
+src-tauri/gen/
+
+# Logs & temporary capture outputs
+*.log
+stdout.txt
+stderr.txt
+output_log.txt
+
+# Stray root binaries, scratch scripts & verification screenshots
+/*.png
+/WebView2Loader.dll
+/scratch.js
+
+# OS metadata
+.DS_Store
+Thumbs.db

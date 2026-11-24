@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>وِنس — كبسولة سطح المكتب والصلوات</title>
+  <link rel="icon" href="icons/icon.png" />
+  <link rel="stylesheet" href="overlay.css" />
+  <script src="shared.js"></script>
+  <script type="module" src="overlay.js" defer></script>
+</head>
+<body class="mode-collapsed">
+  <main class="prayer-overlay island-capsule" aria-label="كبسولة وِنس الذكية">
+    <!-- Collapsed Dynamic Island Bar (Original Clean Shape, Compact & Exact-Fit) -->
+    <header class="overlay-titlebar island-bar" id="islandBar" data-tauri-drag-region>
+      <div class="island-left" data-tauri-drag-region="false">
+        <span class="brand-pulse" id="brandPulse" title="وِنس نشط ومحلي بالكامل"></span>
+        <!-- Mic & Cam Privacy Dots -->
+        <div class="privacy-dots" id="privacyDots" style="display: none;">
+          <span class="dot dot-mic" id="dotMic" title="الميكروفون قيد الاستخدام">🎙️</span>
+          <span class="dot dot-cam" id="dotCam" title="الكاميرا قيد الاستخدام">📷</span>
+        </div>
+        <!-- Active Download Mini Bar -->
+        <div class="download-badge" id="downloadBadge" style="display: none;" title="تنزيل جاري...">
+          <span class="dl-icon">↓</span>
+          <span class="dl-progress-bar"><span class="dl-bar-fill" id="dlBarFill"></span></span>
+        </div>
+      </div>
+
+      <!-- Center Morphing Pill (Countdown / Live Media / Event Alert) -->
+      <div class="island-center" id="islandCenter" data-tauri-drag-region="false">
+        <div class="island-prayer-pill" id="islandPrayerPill">
+          <strong id="capsulePrayerName">…</strong>
+          <span class="capsule-sep">·</span>
+          <span class="capsule-countdown" id="capsuleCountdown">…</span>
+        </div>
+
+        <div class="island-media-pill" id="islandMediaPill" style="display: none;">
+          <span class="media-pill-badge" id="capsuleMediaApp">🎵</span>
+          <span class="media-pill-title" id="capsuleMediaTitle">…</span>
+          <div class="media-pill-controls" data-tauri-drag-region="false">
+            <button type="button" id="capsuleMediaPrev" class="mini-ctrl-btn" title="السابق">⏮</button>
+            <button type="button" id="capsuleMediaToggle" class="mini-ctrl-btn" title="تشغيل/إيقاف">⏯</button>
+            <button type="button" id="capsuleMediaNext" class="mini-ctrl-btn" title="التالي">⏭</button>
+          </div>
+        </div>
+
+        <div class="island-event-pill" id="islandEventPill" style="display: none;">
+          <span class="event-icon" id="islandEventIcon">✨</span>
+          <span class="event-text" id="islandEventText">…</span>
+          <button type="button" id="islandEventDismissBtn" class="mini-ctrl-btn" title="إخفاء فوراً">×</button>
+        </div>
+      </div>
+
+      <!-- Original Right Actions (Media waves + Expand button + Close) -->
+      <div class="overlay-actions island-right" data-tauri-drag-region="false">
+        <button id="radioMiniBtn" class="capsule-icon-btn" type="button" title="الميديا وإذاعة القرآن الكريم" aria-label="الميديا والإذاعة">
+          <span class="radio-waves" id="capsuleWaves"><span></span><span></span><span></span></span>
+        </button>
+        <button id="islandToggleBtn" class="capsule-icon-btn" type="button" title="توسيع الكبسولة" aria-label="توسيع">
+          <span id="islandToggleIcon">▼</span>
+        </button>
+        <button id="hideOverlayButton" type="button" aria-label="إغلاق ويدجت الصلاة" title="إغلاق (Esc)" data-tauri-drag-region="false">×</button>
+      </div>
+    </header>
+
+    <!-- Expanded Island Hub -->
+    <section class="overlay-card" id="islandCard">
+      <!-- Live System Media Strip -->
+      <div class="smtc-section global-smtc-strip" id="smtcSection" style="display: none;">
+        <div class="smtc-info">
+          <div class="smtc-meta-row">
+            <span class="smtc-app-badge" id="smtcSourceBadge">مشغل النظام</span>
+            <button type="button" class="smtc-switch-btn" id="smtcSwitchSessionBtn" style="display: none;" title="تبديل لمشغل ميديا آخر">⇄ تبديل المشغل</button>
+          </div>
+          <span class="smtc-title" id="smtcTitle">عنوان المقطع</span>
+          <span class="smtc-artist" id="smtcArtist">الفنان / التطبيق</span>
+        </div>
+        <div class="smtc-controls">
+          <button type="button" class="smtc-btn" id="smtcPrevBtn" title="السابق">⏮</button>
+          <button type="button" class="smtc-btn smtc-play-btn" id="smtcPlayToggleBtn" title="تشغيل/إيقاف مؤقت">⏯</button>
+          <button type="button" class="smtc-btn" id="smtcNextBtn" title="التالي">⏭</button>
+        </div>
+      </div>
+
+      <!-- Island Navigation Tabs -->
+      <nav class="island-tabs" aria-label="أقسام الكبسولة">
+        <button type="button" class="tab-btn active" data-tab="prayer">🕌 صلاتي</button>
+        <button type="button" class="tab-btn" data-tab="media">📻 الإذاعة والميديا</button>
+        <button type="button" class="tab-btn" data-tab="wellbeing">🎯 تركيز وصحة</button>
+        <button type="button" class="tab-btn" data-tab="shelf">📁 الرف والملفات</button>
+      </nav>
+
+      <!-- Tab 1: Prayer Flow -->
+      <div class="tab-pane active" id="panePrayer">
+        <div class="prayer-flow">
+          <div class="prayer-now">
+            <span class="flow-label">الصلاة القادمة</span>
+            <div class="next-prayer-line"><strong id="nextPrayerName">…</strong><time id="nextPrayerTime">…</time></div>
+            <span class="countdown" id="nextPrayerCountdown">باقي …</span>
+            <div class="current-prayer-action" id="currentPrayerAction" style="display: none;">
+              <span id="currentPrayerLabel"></span>
+              <button id="markPrayerBtn" type="button">صليت ✓</button>
+            </div>
+          </div>
+
+          <div class="wudu-moment" id="wuduMoment">
+            <span class="wudu-icon" aria-hidden="true">◌</span>
+            <div><span>وقت الوضوء</span><strong id="wuduTime">…</strong><small id="wuduCountdown">قبل الصلاة بـ١٥ دقيقة</small></div>
+          </div>
+
+          <div class="following-prayer">
+            <span class="flow-label">بعدها</span>
+            <strong id="followingPrayerName">…</strong>
+            <time id="followingPrayerTime">…</time>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: Quran Radio & WinRT Media -->
+      <div class="tab-pane" id="paneMedia">
+        <div class="media-container">
+          <div class="radio-section" id="radioSection">
+            <div class="radio-header">
+              <span class="radio-badge">📻 إذاعة القرآن الكريم</span>
+              <select id="radioStationSelect" class="station-select" aria-label="اختر الإذاعة">
+                <!-- Stations populated dynamically from island-data.js -->
+              </select>
+            </div>
+            <div class="radio-controls" id="radioControlsRow">
+              <button type="button" id="radioPlayBtn" class="radio-main-btn">▶ تشغيل</button>
+              <div class="volume-slider-box">
+                <span class="vol-icon" aria-hidden="true">🔊</span>
+                <input type="range" id="radioVolume" min="0" max="100" value="80" aria-label="مستوى الصوت" />
+              </div>
+            </div>
+            <div class="radio-status" id="radioStatus" aria-live="polite"></div>
+            <div class="radio-disabled-note" id="radioDisabledNote" style="display: none;">إذاعة القرآن معطّلة من الإعدادات — يمكنك تفعيلها من قسم الكبسولة الذكية.</div>
+          </div>
+          <div class="smtc-idle-hint" id="smtcIdleHint">لا يوجد مشغل ميديا نشط على النظام حالياً — سيظهر هنا تلقائياً عند التشغيل.</div>
+        </div>
+      </div>
+
+      <!-- Tab 3: Wellbeing & Focus & Meetings -->
+      <div class="tab-pane" id="paneWellbeing">
+        <div class="wellbeing-grid">
+          <!-- Water Tracker -->
+          <div class="wellbeing-box water-box">
+            <div class="wellbeing-title">💧 شرب الماء</div>
+            <div class="water-progress-line">
+              <span id="waterCountLabel">٠ / ٨ أكواب</span>
+              <button type="button" id="drinkWaterBtn" class="drink-cup-btn">شربت كوباً +</button>
+            </div>
+            <div class="water-glasses" id="waterGlasses">
+              <!-- Glass dots rendered dynamically -->
+            </div>
+          </div>
+
+          <!-- Calendar Meetings -->
+          <div class="wellbeing-box calendar-box">
+            <div class="wellbeing-head-row">
+              <div class="wellbeing-title">📅 مواعيدك القادمة</div>
+              <button type="button" id="refreshMeetingsBtn" class="btn-text-sm" title="تحديث المواعيد" aria-label="تحديث المواعيد">↻</button>
+            </div>
+            <div class="meetings-list" id="meetingsList">
+              <div class="meeting-empty">لا توجد اجتماعات في الـ ٢٤ ساعة القادمة</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 4: Shelf & Clipboard -->
+      <div class="tab-pane" id="paneShelf">
+        <div class="shelf-container">
+          <div class="shelf-drop-zone" id="shelfDropZone">
+            <div class="shelf-head-row">
+              <span class="shelf-hint">📁 رف الملفات السريع (اسحب أي ملف هنا)</span>
+            </div>
+            <div class="shelf-downloads-status" id="shelfDownloadsStatus" style="display: none;"></div>
+            <div class="shelf-items-list" id="shelfItemsList">
+              <div class="shelf-empty">لا توجد ملفات على الرف بعد</div>
+            </div>
+          </div>
+          <div class="clipboard-box">
+            <div class="clipboard-header">
+              <span>📋 سجل الحافظة الذكية</span>
+              <button type="button" id="clearClipBtn" class="btn-text-sm">مسح</button>
+            </div>
+            <div class="clipboard-list" id="clipboardList">
+              <div class="clip-empty">الحافظة فارغة حالياً</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="overlay-footer">
+        <div class="footer-info">
+          <span id="overlaySource">محسوبة محليًا · القاهرة</span>
+          <span class="drag-hint" data-tauri-drag-region><i aria-hidden="true">⠿</i> اسحب لتحريك الكبسولة</span>
+        </div>
+        <div class="footer-links">
+          <button id="openPrayerButton" type="button" data-tauri-drag-region="false">فتح وِنس <span aria-hidden="true">↗</span></button>
+          <button id="hideOverlayFooterButton" class="overlay-footer-close" type="button" aria-label="إغلاق ويدجت الصلاة" title="إغلاق (Esc)" data-tauri-drag-region="false">×</button>
+        </div>
+      </footer>
+    </section>
+
+    <!-- Pop-out Reminder Card (Dua / Quote / Fasting / Adhan / Dhikr) with Instant Up-Arrow & X Dismiss -->
+    <div class="morph-card" id="morphCard" style="display: none;">
+      <div class="morph-header">
+        <div class="morph-badge" id="morphBadge">فائدة وِنس</div>
+        <div class="morph-nav-actions">
+          <button type="button" id="morphNextBtn" class="morph-nav-btn" title="الكوت / الدعاء التالي">‹</button>
+          <button type="button" id="morphRetractBtn" class="morph-nav-btn" title="ارفع لأعلى فوراً (إخفاء البطاقة)">▲</button>
+          <button type="button" id="morphCloseBtn" class="morph-close-btn" title="إغلاق البطاقة فوراً (Esc)">×</button>
+        </div>
+      </div>
+      <div class="morph-card-content">
+        <div class="morph-body quran-script" id="morphBody">…</div>
+        <div class="morph-footer-row">
+          <div class="morph-source" id="morphSource">…</div>
+          <div class="morph-quick-actions" id="morphQuickActions" style="display: none;">
+            <button type="button" id="morphActionBtn" class="morph-action-btn">صليت ✓</button>
+            <button type="button" id="morphStopAudioBtn" class="morph-action-btn secondary" style="display: none;">إيقاف الصوت 🔇</button>
+          </div>
+        </div>
+      </div>
+      <div class="morph-progress-bar"><div class="morph-progress-fill" id="morphProgressFill"></div></div>
+    </div>
+  </main>
+</body>
+</html>

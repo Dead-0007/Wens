@@ -1,0 +1,13 @@
+# Portable Cargo build configuration.
+# By default, Cargo builds into the standard workspace `target/` directory so
+# Wens compiles cleanly on any Windows PC or CI runner without requiring a D:\ drive.
+#
+# To redirect build artifacts to a custom local drive/cache, set the standard
+# environment variable instead:
+#   $env:CARGO_TARGET_DIR = "D:/cargo-target-wens"
+#
+# Note: `run-tauri.mjs` automatically passes `CARGO_TARGET_DIR=D:/cargo-target-wens`
+# when that cache folder already exists and `CARGO_TARGET_DIR` is not explicitly set.
+#
+# [build]
+# target-dir = "target"

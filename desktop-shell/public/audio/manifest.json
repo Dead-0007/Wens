@@ -1,0 +1,37 @@
+{
+  "version": "1.0.0",
+  "generatedAt": "2026-09-24T04:24:29.130Z",
+  "assets": [
+    {
+      "id": "gentle-chime",
+      "filename": "gentle-chime.wav",
+      "format": "audio/wav",
+      "durationSec": 2.4,
+      "descriptionAr": "نغمة هادئة للتنبيه غير اللفظي لأوقات الصلاة والسحور والوضوء",
+      "license": "CC0-1.0",
+      "author": "Wens Project (Procedurally Generated)",
+      "sha1": "b5610000ef43e02c78324bbe49b0ab75e657b1bd"
+    },
+    {
+      "id": "work-chime",
+      "filename": "work-chime.wav",
+      "format": "audio/wav",
+      "durationSec": 2,
+      "descriptionAr": "نغمة عمل ثنائية النغمات لانتهاء جلسة التركيز",
+      "license": "CC0-1.0",
+      "author": "Wens Project (Procedurally Generated)",
+      "sha1": "ca40d7e773e2e6f5459678eeebd0623f806da90b"
+    },
+    {
+      "id": "adhan",
+      "filename": "adhan.ogg",
+      "format": "audio/ogg; codecs=vorbis",
+      "durationSec": 154,
+      "descriptionAr": "تسجيل الأذان الكامل عند اختيار وضع الأذان لصلاة الفريضة",
+      "license": "CC0-1.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Beautiful_adhan.ogg",
+      "author": "Wikimedia Commons User / Public Domain Dedication",
+      "sha1": "a1fa4fd942401922c5c3301816384aae86956522"
+    }
+  ]
+}

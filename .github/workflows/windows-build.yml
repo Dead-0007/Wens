@@ -1,0 +1,36 @@
+name: Windows installer build
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-2022
+    timeout-minutes: 45
+    env:
+      RUSTUP_TOOLCHAIN: 1.99.1-x86_64-pc-windows-msvc
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 26.13.0
+      - name: Install build tools and dependencies
+        shell: pwsh
+        run: |
+          rustup toolchain install $env:RUSTUP_TOOLCHAIN --profile minimal
+          cargo install tauri-cli --version 2.12.4 --locked
+          npm ci
+      - name: Build unsigned NSIS installer
+        run: npm run desktop:build -- -- --locked
+      - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: wens-windows-x64-unsigned
+          path: target/release/bundle/nsis/*_x64-setup.exe
+          if-no-files-found: error
+          retention-days: 7

@@ -1,0 +1,8 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "desktop-autostart",
+  "description": "Launch-at-login is a desktop-only capability: tauri-plugin-autostart has no Android/iOS implementation, so the plugin is only linked on desktop targets.",
+  "platforms": ["windows", "macOS", "linux"],
+  "windows": ["main"],
+  "permissions": ["autostart:default"]
+}

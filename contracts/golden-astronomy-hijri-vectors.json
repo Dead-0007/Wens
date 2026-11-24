@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Golden Astronomy & Hijri Reference Vectors",
+  "version": "1.0.0",
+  "hijri": [
+    { "gregorian": "2026-05-18", "year": 1447, "month": 12, "day": 1, "monthName": "ذو الحجة" },
+    { "gregorian": "2026-05-26", "year": 1447, "month": 12, "day": 9, "monthName": "ذو الحجة" },
+    { "gregorian": "2026-05-27", "year": 1447, "month": 12, "day": 10, "monthName": "ذو الحجة" },
+    { "gregorian": "2026-06-16", "year": 1448, "month": 1, "day": 1, "monthName": "محرم" },
+    { "gregorian": "2026-06-25", "year": 1448, "month": 1, "day": 10, "monthName": "محرم" },
+    { "gregorian": "2026-10-23", "year": 1448, "month": 5, "day": 12, "monthName": "جمادى الأولى" },
+    { "gregorian": "2026-10-24", "year": 1448, "month": 5, "day": 13, "monthName": "جمادى الأولى" },
+    { "gregorian": "2026-10-25", "year": 1448, "month": 5, "day": 14, "monthName": "جمادى الأولى" },
+    { "gregorian": "2026-10-26", "year": 1448, "month": 5, "day": 15, "monthName": "جمادى الأولى" },
+    { "gregorian": "2027-02-08", "year": 1448, "month": 9, "day": 1, "monthName": "رمضان" }
+  ],
+  "cairoAugustAuthority2026": [
+    { "day": 1, "minutes": [275, 374, 781, 998, 1189, 1275] },
+    { "day": 15, "minutes": [288, 382, 779, 996, 1176, 1260] },
+    { "day": 28, "minutes": [299, 389, 776, 991, 1162, 1243] },
+    { "day": 31, "minutes": [301, 391, 775, 989, 1159, 1239] }
+  ]
+}
